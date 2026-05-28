@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neonatal Rota — Character Directory</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --ink: #1a1a2e;
+    --paper: #f8f4ef;
+    --cream: #efe9de;
+    --rule: #c9b99a;
+    --accent-red: #c0392b;
+    --accent-amber: #d4820a;
+    --accent-green: #1e6e3a;
+    --accent-blue: #1a4f8c;
+    --accent-purple: #6a0dad;
+    --card-bg: #fff;
+    --shadow: 0 2px 12px rgba(26,26,46,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .masthead {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2.5rem 3rem 2rem;
+    border-bottom: 4px solid var(--accent-red);
+    position: relative;
+    overflow: hidden;
+  }
+  .masthead::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.015) 40px,
+      rgba(255,255,255,0.015) 41px
+    );
+    pointer-events: none;
+  }
+  .masthead-inner { max-width: 1400px; margin: 0 auto; }
+  .masthead-kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rule);
+    margin-bottom: 0.5rem;
+  }
+  .masthead h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+  .masthead-sub {
+    font-size: 0.9rem;
+    color: var(--rule);
+    font-weight: 300;
+    max-width: 600px;
+  }
+  .masthead-stats {
+    display: flex; gap: 2rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .stat {
+    display: flex; flex-direction: column; gap: 0.1rem;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--paper);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rule);
+  }
+
+  /* ── CONTROLS ── */
+  .controls {
+    background: var(--cream);
+    border-bottom: 1px solid var(--rule);
+    padding: 1rem 3rem;
+    position: sticky; top: 0; z-index: 50;
+    display: flex; gap: 1rem; align-items: center;
+    flex-wrap: wrap;
+  }
+  .controls-inner { max-width: 1400px; margin: 0 auto; width: 100%; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  .search-box {
+    flex: 1; min-width: 200px;
+    display: flex; align-items: center; gap: 0.5rem;
+    background: white;
+    border: 1px solid var(--rule);
+    padding: 0.45rem 0.8rem;
+    border-radius: 4px;
+  }
+  .search-box input {
+    border: none; outline: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--ink);
+    background: transparent;
+    width: 100%;
+  }
+  .search-icon { color: var(--rule); font-size: 0.9rem; }
+  .filter-group { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .filter-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid var(--rule);
+    background: white;
+    color: var(--ink);
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .filter-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .filter-btn.active-red { background: var(--accent-red); color: white; border-color: var(--accent-red); }
+  .filter-btn.active-amber { background: var(--accent-amber); color: white; border-color: var(--accent-amber); }
+  .filter-btn.active-green { background: var(--accent-green); color: white; border-color: var(--accent-green); }
+  .filter-btn.active-purple { background: var(--accent-purple); color: white; border-color: var(--accent-purple); }
+  .filter-btn.active-blue { background: var(--accent-blue); color: white; border-color: var(--accent-blue); }
+  .count-display {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--rule);
+    margin-left: auto;
+  }
+
+  /* ── GRID ── */
+  .main { max-width: 1400px; margin: 0 auto; padding: 2rem 3rem 4rem; }
+  .section-divider {
+    display: flex; align-items: center; gap: 1rem;
+    margin: 2.5rem 0 1.5rem;
+  }
+  .section-divider h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--rule);
+    white-space: nowrap;
+  }
+  .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.2rem;
+  }
+
+  /* ── PERSON CARD ── */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid #e8dece;
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: transform 0.15s, box-shadow 0.15s;
+    cursor: pointer;
+    position: relative;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(26,26,46,0.13);
+  }
+  .card.hidden { display: none; }
+
+  .card-stripe {
+    height: 4px;
+  }
+  .stripe-clinical { background: var(--accent-blue); }
+  .stripe-rf { background: var(--accent-purple); }
+  .stripe-locum { background: var(--accent-amber); }
+
+  .card-body { padding: 1rem 1.1rem 0.9rem; }
+  .card-scenario {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rule);
+    margin-bottom: 0.3rem;
+  }
+  .card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 0.15rem;
+  }
+  .card-title {
+    font-size: 0.78rem;
+    color: #666;
+    margin-bottom: 0.7rem;
+    font-style: italic;
+  }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.8rem; }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.45rem;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .tag-role-clinical { background: #e8f0fc; color: var(--accent-blue); }
+  .tag-role-rf { background: #f2e8fc; color: var(--accent-purple); }
+  .tag-role-locum { background: #fef3e0; color: var(--accent-amber); }
+  .tag-nationality { background: #f0f4f0; color: #2d5a2d; }
+  .tag-pgy { background: #fafafa; color: #555; border: 1px solid #e0e0e0; }
+  .tag-verdict-robust { background: #e8f5ee; color: var(--accent-green); }
+  .tag-verdict-stressed { background: #fff8e5; color: var(--accent-amber); }
+  .tag-verdict-breakdown { background: #fdecea; color: var(--accent-red); }
+
+  .card-description {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: #444;
+    border-top: 1px solid var(--cream);
+    padding-top: 0.7rem;
+  }
+  .card-event {
+    margin-top: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    font-style: italic;
+  }
+  .event-red { background: #fdecea; color: #8b1a1a; border-left: 2px solid var(--accent-red); }
+  .event-amber { background: #fff8e5; color: #7a4a00; border-left: 2px solid var(--accent-amber); }
+  .event-green { background: #e8f5ee; color: #1a4a2a; border-left: 2px solid var(--accent-green); }
+  .event-neutral { background: var(--cream); color: #555; border-left: 2px solid var(--rule); }
+
+  /* ── SCENARIO BADGE ── */
+  .scenario-badge {
+    position: absolute;
+    top: 0.7rem; right: 0.8rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: white;
+    padding: 0.2rem 0.45rem;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex; gap: 1.5rem; flex-wrap: wrap;
+    padding: 1.2rem 3rem;
+    border-bottom: 1px solid var(--rule);
+    background: white;
+    max-width: 1400px; margin: 0 auto;
+  }
+  .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: #555; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── NO RESULTS ── */
+  .no-results {
+    text-align: center; padding: 4rem 2rem;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--rule);
+    font-size: 1.2rem;
+    display: none;
+  }
+  .no-results.visible { display: block; }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-kicker">Neonatal Rota Resilience Study · 20 Parallel Scenarios</div>
+    <h1>The Character Directory</h1>
+    <p class="masthead-sub">Profiles of every doctor, fellow, and locum across all 20 stress-test scenarios — their personalities, roles, and what they did when it mattered.</p>
+    <div class="masthead-stats">
+      <div class="stat"><span class="stat-num">20</span><span class="stat-label">Scenarios</span></div>
+      <div class="stat"><span class="stat-num">167</span><span class="stat-label">Individuals</span></div>
+      <div class="stat"><span class="stat-num">10</span><span class="stat-label">Archetypes</span></div>
+      <div class="stat"><span class="stat-num">23</span><span class="stat-label">Weeks</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <div class="controls-inner">
+    <div class="search-box">
+      <span class="search-icon">⌕</span>
+      <input type="text" id="searchInput" placeholder="Search by name, trait, nationality, event..." oninput="filterCards()">
+    </div>
+    <div class="filter-group">
+      <button class="filter-btn active" onclick="filterByType('all', this)">All</button>
+      <button class="filter-btn" onclick="filterByType('clinical', this)">Clinical Residents</button>
+      <button class="filter-btn" onclick="filterByType('rf', this)">Research Fellows</button>
+      <button class="filter-btn" onclick="filterByType('locum', this)">Locums</button>
+    </div>
+    <div class="filter-group">
+      <button class="filter-btn" onclick="filterByVerdict('robust', this)" title="🟢 Robust scenarios">🟢 Robust</button>
+      <button class="filter-btn" onclick="filterByVerdict('stressed', this)" title="🟡 Stressed scenarios">🟡 Stressed</button>
+      <button class="filter-btn" onclick="filterByVerdict('breakdown', this)" title="🔴 Near-breakdown">🔴 Breakdown</button>
+    </div>
+    <div class="filter-group">
+      <button class="filter-btn" onclick="filterByArchetype('anchor', this)">Anchors</button>
+      <button class="filter-btn" onclick="filterByArchetype('hero', this)">Heroes</button>
+      <button class="filter-btn" onclick="filterByArchetype('problematic', this)">Problematic</button>
+      <button class="filter-btn" onclick="filterByArchetype('burnout', this)">Burnout</button>
+      <button class="filter-btn" onclick="filterByArchetype('international', this)">International</button>
+    </div>
+    <span class="count-display" id="countDisplay">167 people</span>
+  </div>
+</div>
+
+<div class="main" id="mainContent">
+  <div class="no-results" id="noResults">No characters match your search.</div>
+</div>
+
+<script>
+const people = [
+  // ═══ SCENARIO 01: THE DREAM TEAM ═══
+  { id:1,  scenario:1, scenarioName:"The Dream Team", verdict:"robust",
+    name:"Dr. Síofra Ní Mhurchú", role:"clinical", pgy:"PGY-4", nationality:"Irish (Cork)",
+    description:"Calm, experienced natural leader. Covers gaps without being asked. Runs informal WhatsApp comms for the team. The person everyone calls first.",
+    event:"Manages the entire window without escalation. Quietly handles Conor's late admin with a word rather than a formal process.", eventType:"green",
+    archetype:["anchor"], tags:["Irish","Galway","PGY-4"] },
+  { id:2,  scenario:1, scenarioName:"The Dream Team", verdict:"robust",
+    name:"Dr. Ben Adeyemi", role:"clinical", pgy:"PGY-3", nationality:"Nigerian-Irish",
+    description:"Infectious enthusiasm and excellent clinical skills. Organises the social calendar. Reliable, communicative, never a cause for concern.",
+    event:"Swaps a Wednesday Long shift with Naomi informally — works perfectly. Gets a quiet note from the rota lead to document swaps going forward.", eventType:"green",
+    archetype:[], tags:["Nigerian-Irish","PGY-3"] },
+  { id:3,  scenario:1, scenarioName:"The Dream Team", verdict:"robust",
+    name:"Dr. Marta Kowalczyk", role:"clinical", pgy:"PGY-2", nationality:"Polish-Irish",
+    description:"Methodical, never misses a handover. Slightly anxious but always thoroughly prepared. Submits all paperwork early.",
+    event:"Requests 15 days split across Aug and Oct — modest, well-spaced, approved without negotiation.", eventType:"green",
+    archetype:[], tags:["Polish-Irish","PGY-2"] },
+  { id:4,  scenario:1, scenarioName:"The Dream Team", verdict:"robust",
+    name:"Dr. Roisín Daly", role:"clinical", pgy:"PGY-3", nationality:"Irish (Galway)",
+    description:"Witty, warm. Has covered more gaps than anyone in her training so far. Never complains, never keeps score.",
+    event:"Absorbs two Flex deployments during the window. Both times she volunteers before being asked.", eventType:"green",
+    archetype:["hero"], tags:["Irish","Galway","PGY-3"] },
+  { id:5,  scenario:1, scenarioName:"The Dream Team", verdict:"robust",
+    name:"Dr. Eoin Ó'Dochartaigh", role:"clinical", pgy:"PGY-4", nationality:"Irish (Donegal)",
+    description:"Quiet competence. Knows every protocol. Night shifts don't faze him — actually seems to prefer them.",
+    event:"Holds nights reliably across all three cycles. No gap, no complaint, no drama.", eventType:"green",
+    archetype:["anchor"], tags:["Irish","Donegal","PGY-4"] },
+  { id:6,  scenario:1, scenarioName:"The Dream Team", verdict:"robust",
+    name:"Dr. Amara Diallo", role:"clinical", pgy:"PGY-2", nationality:"Senegalese-Irish",
+    description:"Brilliant, fast learner. Sits every MRCPCH component simultaneously. Gets 5-day prep course approved — the most study leave in the team.",
+    event:"Study leave week approved cleanly. No rota impact — everyone covers informally.", eventType:"green",
+    archetype:[], tags:["Senegalese-Irish","PGY-2"] },
+  { id:7,  scenario:1, scenarioName:"The Dream Team", verdict:"robust",
+    name:"Dr. Ciara Healy", role:"clinical", pgy:"PGY-3", nationality:"Irish (Limerick)",
+    description:"Resilient. Did 14 months of maternity cover in her last post. Nothing fazes her. Unflappable in emergencies.",
+    event:"Flex deployment handled smoothly. No issues reported throughout the window.", eventType:"green",
+    archetype:["anchor"], tags:["Irish","Limerick","PGY-3"] },
+  { id:8,  scenario:1, scenarioName:"The Dream Team", verdict:"robust",
+    name:"Dr. Jakub Novotný", role:"clinical", pgy:"PGY-3", nationality:"Czech-Irish",
+    description:"Precise and punctual. Models his ward rounds on the consultant he most admires. Meticulous documentation.",
+    event:"Requests 10 days October leave — clean block, no clash. All approved first time.", eventType:"green",
+    archetype:[], tags:["Czech-Irish","PGY-3"] },
+  { id:9,  scenario:1, scenarioName:"The Dream Team", verdict:"robust",
+    name:"Dr. Naomi Adesanya", role:"clinical", pgy:"PGY-2", nationality:"Irish (Dublin)",
+    description:"Quiet achiever. Arrives early, stays late, asks good questions. The resident consultants always notice by Week 3.",
+    event:"Participates in an informal Wednesday swap with Ben — rota lead finds out and retrospectively approves it.", eventType:"green",
+    archetype:[], tags:["Irish","Dublin","PGY-2"] },
+  { id:10, scenario:1, scenarioName:"The Dream Team", verdict:"robust",
+    name:"Dr. Conor Whelan", role:"clinical", pgy:"PGY-4", nationality:"Irish (Waterford)",
+    description:"Finishing training, preparing a fellowship application. Mentally half elsewhere by October. Clinical work is fine; admin outputs are perpetually late.",
+    event:"Fellowship writing retreat declined as study leave (no external booking). Síofra has a quiet word. Forms submitted by Week 12.", eventType:"amber",
+    archetype:[], tags:["Irish","Waterford","PGY-4"] },
+  { id:11, scenario:1, scenarioName:"The Dream Team", verdict:"robust",
+    name:"Dr. Ingrid Svensson", role:"rf", pgy:"RF", nationality:"Swedish",
+    description:"Disciplined, reliable Neurodevelopment PhD fellow. Submits blackout dates early and adheres to them.",
+    event:"Covers obligatory weekends without issue. November blackout clashes with RF3 — pre-arranged swap to Nov 22.", eventType:"green",
+    archetype:[], tags:["Swedish","RF"] },
+  { id:12, scenario:1, scenarioName:"The Dream Team", verdict:"robust",
+    name:"Dr. Pádraig Ó'Sé", role:"rf", pgy:"RF", nationality:"Irish (Kerry)",
+    description:"Easygoing Metabolomics fellow. Never causes drama. Submits his schedule and gets on with his research.",
+    event:"Two obligatory weekends completed without incident.", eventType:"green",
+    archetype:[], tags:["Irish","Kerry","RF"] },
+  { id:13, scenario:1, scenarioName:"The Dream Team", verdict:"robust",
+    name:"Dr. Zara Obi", role:"rf", pgy:"RF", nationality:"Nigerian-Irish",
+    description:"Organised Nutrition PhD fellow. Submits her blackout weekend dates in Week 1. First to have her entire schedule confirmed.",
+    event:"Obligatory weekends completed. November blackout managed via pre-arranged swap.", eventType:"green",
+    archetype:[], tags:["Nigerian-Irish","RF"] },
+
+  // ═══ SCENARIO 02: THE PREGNANCY PROBLEM ═══
+  { id:14, scenario:2, scenarioName:"The Pregnancy Problem", verdict:"stressed",
+    name:"Dr. Tomás Sheridan", role:"clinical", pgy:"PGY-4", nationality:"Irish",
+    description:"Solid, reliable senior resident. When Aoife goes on maternity leave, Tomás absorbs part of the P2 load voluntarily, paid as additional hours.",
+    event:"Covers extra shifts in the final 4 weeks after Aoife's departure. TOIL documented and honoured.", eventType:"amber",
+    archetype:["anchor"], tags:["Irish","PGY-4"] },
+  { id:15, scenario:2, scenarioName:"The Pregnancy Problem", verdict:"stressed",
+    name:"Dr. Aoife Maguire", role:"clinical", pgy:"PGY-3", nationality:"Irish",
+    description:"18 weeks pregnant at window start. Nights restricted from Week 8 by Occupational Health. Fully fit for all daytime work. Front-loads annual leave before restriction.",
+    event:"Nights swap formally arranged with Dev by Week 4. Weekend nights swap with Marcus. Leaves on maternity leave Week 20. Not replaced within the window.", eventType:"amber",
+    archetype:["burnout"], tags:["Irish","PGY-3","pregnancy"] },
+  { id:16, scenario:2, scenarioName:"The Pregnancy Problem", verdict:"stressed",
+    name:"Dr. Dev Krishnamurthy", role:"clinical", pgy:"PGY-3", nationality:"Indian-Irish",
+    description:"Capable and accommodating. Agrees to the nights swap with Aoife without hesitation — takes her nights rotation, she covers his OPD day. Documented formally.",
+    event:"Swap signed by Week 4. Nights covered without incident through Weeks 8–18.", eventType:"green",
+    archetype:["hero"], tags:["Indian-Irish","PGY-3"] },
+  { id:17, scenario:2, scenarioName:"The Pregnancy Problem", verdict:"stressed",
+    name:"Dr. Marcus O'Brien", role:"clinical", pgy:"PGY-3", nationality:"Irish",
+    description:"Methodical, good at nights. Agrees to cover Aoife's Weekend Nights when they fall in her cycle. Receives OPD day cover in return.",
+    event:"Weekend nights swap HR-approved. No incidents. One of the key enabling decisions of the scenario.", eventType:"green",
+    archetype:[], tags:["Irish","PGY-3"] },
+
+  // ═══ SCENARIO 03: THE ABSCONDER ═══
+  { id:18, scenario:3, scenarioName:"The Absconder", verdict:"stressed",
+    name:"Dr. Caoimhe Brennan", role:"clinical", pgy:"PGY-4", nationality:"Irish",
+    description:"Competent senior who takes charge in a crisis. Covers Saturday night during Robbie's absconding week and receives TOIL Monday.",
+    event:"Covers the Sat night during Robbie's absconding week. TOIL honoured.", eventType:"amber",
+    archetype:["anchor"], tags:["Irish","PGY-4"] },
+  { id:19, scenario:3, scenarioName:"The Absconder", verdict:"stressed",
+    name:"Dr. 'Robbie' Roberts", role:"clinical", pgy:"PGY-2", nationality:"Irish",
+    description:"Has been struggling with personal issues. Missed two shifts in his last rotation. On an informal PIP. Stops showing up in Week 9 — no call, no text. Later diagnosed with stress/burnout.",
+    event:"AWOL from Sep 7. GP cert arrives covering 7 weeks. Returns Week 14 (days only), full duties Week 18. EAP involved.", eventType:"red",
+    archetype:["problematic","burnout"], tags:["Irish","PGY-2","AWOL","burnout"] },
+  { id:20, scenario:3, scenarioName:"The Absconder", verdict:"stressed",
+    name:"Dr. Stefan Novak", role:"clinical", pgy:"PGY-3", nationality:"Slovak-Irish",
+    description:"Reliable and a good communicator. Covers Sunday night during Robbie's absconding week and receives TOIL Monday.",
+    event:"Covers Sunday night voluntarily. TOIL documented.", eventType:"amber",
+    archetype:[], tags:["Slovak-Irish","PGY-3"] },
+  { id:21, scenario:3, scenarioName:"The Absconder", verdict:"stressed",
+    name:"Dr. Layla Hassan", role:"clinical", pgy:"PGY-3", nationality:"Egyptian-Irish",
+    description:"Excellent clinician, calm under pressure. Swaps her OPD day for Robbie's Wednesday night — leaving OPD slightly short but workable.",
+    event:"Covers Wednesday night during Week 9. Swap documented.", eventType:"amber",
+    archetype:[], tags:["Egyptian-Irish","PGY-3"] },
+  { id:22, scenario:3, scenarioName:"The Absconder", verdict:"stressed",
+    name:"Dr. Preethi Subramanian", role:"clinical", pgy:"PGY-3", nationality:"Indian-Irish",
+    description:"Outstanding, always early. Volunteers to cover Thursday night during Robbie's Week 9 absence. Extends from her SCBU standard shift.",
+    event:"Covers Thursday night voluntarily. Post-nights rest observed Friday.", eventType:"amber",
+    archetype:["hero"], tags:["Indian-Irish","PGY-3"] },
+  { id:23, scenario:3, scenarioName:"The Absconder", verdict:"stressed",
+    name:"Dr. David Park", role:"rf", pgy:"RF", nationality:"Korean-Irish",
+    description:"Organised and cooperative Research Fellow. Covers Tuesday night during Robbie's Week 9 crisis — one goodwill shift. Cannot cover consecutive nights due to research commitments.",
+    event:"1 RF goodwill shift used (Tuesday night). Explains his constraints clearly and is respected for it.", eventType:"amber",
+    archetype:[], tags:["Korean-Irish","RF"] },
+  { id:24, scenario:3, scenarioName:"The Absconder", verdict:"stressed",
+    name:"Dr. Fiona Horgan", role:"rf", pgy:"RF", nationality:"Irish",
+    description:"Reliable Research Fellow. Covers Friday night (Weekend Nights start) during Robbie's Week 9 absence — one goodwill shift.",
+    event:"1 RF goodwill shift used (Friday night). Block B obligatory weekends also completed.", eventType:"amber",
+    archetype:[], tags:["Irish","RF"] },
+
+  // ═══ SCENARIO 04: LONG-TERM SICK ═══
+  { id:25, scenario:4, scenarioName:"The Long-Term Sick", verdict:"stressed",
+    name:"Dr. Áine O'Sullivan", role:"clinical", pgy:"PGY-4", nationality:"Irish",
+    description:"One of the most senior residents. Develops acute viral myocarditis in Week 3 — chest pain, palpitations, hospitalised same day. Off work 11 weeks. Returns phased (days only) Week 14.",
+    event:"11-week absence triggers locum requisition. Annual leave preserved and used in December. Returns to full duties Week 16.", eventType:"red",
+    archetype:["burnout"], tags:["Irish","PGY-4","myocarditis","long-term sick"] },
+  { id:26, scenario:4, scenarioName:"The Long-Term Sick", verdict:"stressed",
+    name:"Dr. Parisa Karimi", role:"clinical", pgy:"PGY-4", nationality:"Iranian-Irish",
+    description:"Excellent clinician who steps into Áine's informal leadership role immediately. Volunteers for nights swap for Weeks 3–5. Hours approach maximum — HR monitoring applied.",
+    event:"Defers 5 days AL voluntarily until locum arrives. Covers nights for 2 cycles. Peer support check-in arranged Week 10.", eventType:"amber",
+    archetype:["hero","anchor"], tags:["Iranian-Irish","PGY-4"] },
+  { id:27, scenario:4, scenarioName:"The Long-Term Sick", verdict:"stressed",
+    name:"Dr. Kwame Asante", role:"clinical", pgy:"PGY-3", nationality:"Ghanaian-Irish",
+    description:"Strong resident who becomes the effective most-senior once Áine is admitted. Handles the step-up gracefully. Defers AL voluntarily.",
+    event:"Peer support check-in Week 10. Deferred leave taken Oct/Nov once Kofi is settled.", eventType:"amber",
+    archetype:["anchor"], tags:["Ghanaian-Irish","PGY-3"] },
+  { id:28, scenario:4, scenarioName:"The Long-Term Sick", verdict:"stressed",
+    name:"Dr. Kofi Mensah", role:"locum", pgy:"PGY-3", nationality:"Ghanaian-Irish",
+    description:"PGY-3 locum sourced via agency. Familiar with neonatal environments and credentialled at the hospital before Week 7. Cautious initially but competent.",
+    event:"Fills P1 slot from Week 7. Functioning at full capacity by Week 9. Demobilised Week 14 on Áine's return.", eventType:"green",
+    archetype:[], tags:["Ghanaian-Irish","PGY-3","locum"] },
+  { id:29, scenario:4, scenarioName:"The Long-Term Sick", verdict:"stressed",
+    name:"Dr. Antoine Moreau", role:"rf", pgy:"RF", nationality:"French",
+    description:"Organised French Research Fellow. Covers 2 nights goodwill in Week 6 during the pre-locum gap. Coordinated promptly.",
+    event:"2 RF goodwill shifts used. Reserve rebuilds once Kofi is in post.", eventType:"amber",
+    archetype:[], tags:["French","RF"] },
+
+  // ═══ SCENARIO 05: THE LEAVE TSUNAMI ═══
+  { id:30, scenario:5, scenarioName:"The Leave Tsunami", verdict:"stressed",
+    name:"Dr. Marco Ferretti", role:"clinical", pgy:"PGY-2", nationality:"Italian-Irish",
+    description:"Had booked flights to Italy for his grandmother's 90th birthday — but didn't put the reason on the leave form. When his August request is redirected to October, he's furious.",
+    event:"Formal complaint submitted. Leave moved to Oct 5–23. 1:1 arranged in Week 10 — discloses the family reason. 3 compassionate days granted for a shorter trip to Italy in early October.", eventType:"red",
+    archetype:["problematic"], tags:["Italian-Irish","PGY-2"] },
+  { id:31, scenario:5, scenarioName:"The Leave Tsunami", verdict:"stressed",
+    name:"Dr. Sharon Costelloe", role:"clinical", pgy:"PGY-4", nationality:"Irish",
+    description:"PGY-4 who pushes for 15 days from Jul 28. Template slot aligns and seniority gives her priority — she gets the August week everyone else wants.",
+    event:"Gets Aug 10–14 approved as priority. Fair by the matrix. Not popular with her peers.", eventType:"green",
+    archetype:[], tags:["Irish","PGY-4"] },
+  { id:32, scenario:5, scenarioName:"The Leave Tsunami", verdict:"stressed",
+    name:"Dr. Ailbhe Conneely", role:"clinical", pgy:"PGY-4", nationality:"Irish",
+    description:"PGY-4 who also gets Aug 10–14 as second priority approval. Template slot aligned.",
+    event:"Approved Aug 10–14 alongside Sharon. Clean run through the rest of the window.", eventType:"green",
+    archetype:[], tags:["Irish","PGY-4"] },
+  { id:33, scenario:5, scenarioName:"The Leave Tsunami", verdict:"stressed",
+    name:"Dr. Nadia Korhonen", role:"clinical", pgy:"PGY-3", nationality:"Finnish-Irish",
+    description:"Sensible request — 5 days Aug then 5 days Sep. Never caused a problem. Gets caught in the Sep 7–11 window alongside Igor after redistribution.",
+    event:"Sep 7–11: she + Igor = 2 out. Sharon (Flex) covers. Clean.", eventType:"green",
+    archetype:[], tags:["Finnish-Irish","PGY-3"] },
+
+  // ═══ SCENARIO 06: THE TOXIC DYNAMIC ═══
+  { id:34, scenario:6, scenarioName:"The Toxic Dynamic", verdict:"stressed",
+    name:"Dr. Declan Farrell", role:"clinical", pgy:"PGY-4", nationality:"Irish",
+    description:"Senior but aloof. Refuses all informal arrangements. Every request must go through the rota lead. Has had a documented verbal altercation with Aidan. Delivers incomplete handovers.",
+    event:"Formally counselled by clinical director Week 11. Handovers improved under ISBAR protocol. Never quite warm, but functional.", eventType:"red",
+    archetype:["problematic"], tags:["Irish","PGY-4","toxic"] },
+  { id:35, scenario:6, scenarioName:"The Toxic Dynamic", verdict:"stressed",
+    name:"Dr. Aidan Byrne", role:"clinical", pgy:"PGY-4", nationality:"Irish",
+    description:"Senior resident in the other clique. Has had a documented altercation with Declan. Escalates swap requests to the rota lead rather than asking directly.",
+    event:"Formally counselled alongside Declan Week 11. Clinically fine, professionally difficult.", eventType:"amber",
+    archetype:["problematic"], tags:["Irish","PGY-4","toxic"] },
+  { id:36, scenario:6, scenarioName:"The Toxic Dynamic", verdict:"stressed",
+    name:"Dr. Tomasz Wiśniewski", role:"clinical", pgy:"PGY-3", nationality:"Polish-Irish",
+    description:"Allied with Declan. Won't cover without formal documentation. Sends a carefully worded email before agreeing to flex — technically correct, practically exhausting.",
+    event:"45-minute phone call before he agrees to flex in Week 5. Remains professional but inflexible throughout.", eventType:"amber",
+    archetype:["problematic"], tags:["Polish-Irish","PGY-3","toxic"] },
+  { id:37, scenario:6, scenarioName:"The Toxic Dynamic", verdict:"stressed",
+    name:"Dr. Yewande Oloja", role:"clinical", pgy:"PGY-3", nationality:"Nigerian-Irish",
+    description:"Capable clinician caught between both cliques. Exhausted by the atmosphere. Sick for 2 days Week 5 (genuine viral illness). Considering requesting a transfer by Week 16.",
+    event:"2-day genuine illness Week 5. Flex eventually absorbs. Morale trajectory negative throughout.", eventType:"amber",
+    archetype:["burnout"], tags:["Nigerian-Irish","PGY-3","burnout"] },
+  { id:38, scenario:6, scenarioName:"The Toxic Dynamic", verdict:"stressed",
+    name:"Dr. Mei Fang", role:"clinical", pgy:"PGY-3", nationality:"Chinese-Irish",
+    description:"Tries to stay neutral. The team's informal peacekeeper. Increasingly stressed. Burns out Week 16 — 5 days sick leave clearly stress-related.",
+    event:"Occupational health referral Week 16. OH confirms stress-related. Redeployment to quieter environment considered.", eventType:"red",
+    archetype:["burnout"], tags:["Chinese-Irish","PGY-3","burnout"] },
+  { id:39, scenario:6, scenarioName:"The Toxic Dynamic", verdict:"stressed",
+    name:"Dr. Siobhán Naughton", role:"clinical", pgy:"PGY-3", nationality:"Irish",
+    description:"Allied with Aidan. Sends a one-line incomplete handover to Claire in Week 10 — causes a near-miss incident.",
+    event:"Near-miss incident Week 10. Formal process initiated. ISBAR handover protocol enforced.", eventType:"red",
+    archetype:["problematic"], tags:["Irish","PGY-3","near-miss","toxic"] },
+  { id:40, scenario:6, scenarioName:"The Toxic Dynamic", verdict:"stressed",
+    name:"Dr. Bobby Osei", role:"clinical", pgy:"PGY-2", nationality:"Ghanaian-Irish",
+    description:"Junior resident, intimidated by the dynamic. Visibly demoralised by Week 8. Sick for 3 days Week 13 (likely stress-related).",
+    event:"3-day illness Week 13. Flex absorbs. No formal support offered — management action missed.", eventType:"amber",
+    archetype:[], tags:["Ghanaian-Irish","PGY-2"] },
+  { id:41, scenario:6, scenarioName:"The Toxic Dynamic", verdict:"stressed",
+    name:"Dr. Una Ní Fhaoláin", role:"clinical", pgy:"PGY-2", nationality:"Irish (Gaeltacht)",
+    description:"New to the department. Watches carefully from Week 1. Demoralised by Week 8. Her early career formation is happening in the worst possible environment.",
+    event:"Flagged as at risk of morale impact in management review.", eventType:"amber",
+    archetype:[], tags:["Irish","Gaeltacht","PGY-2"] },
+  { id:42, scenario:6, scenarioName:"The Toxic Dynamic", verdict:"stressed",
+    name:"Dr. Sam Bradley", role:"rf", pgy:"RF", nationality:"Irish",
+    description:"Tries to bridge the two cliques — attends both social groups' events, facilitates informal conversations. Largely fails. Remains professionally unaffected.",
+    event:"Active bridge-building effort fails. Stays out of the formal complaint process.", eventType:"amber",
+    archetype:[], tags:["Irish","RF"] },
+
+  // ═══ SCENARIO 07: EXAM SEASON CRUSH ═══
+  { id:43, scenario:7, scenarioName:"The Exam Season Crush", verdict:"breakdown",
+    name:"Dr. Orla Breathnach", role:"clinical", pgy:"PGY-4", nationality:"Irish (Gaeltacht)",
+    description:"Sole senior non-exam resident. Absorbs enormous extra burden during October–November as everyone else is on study leave. Formally recognised — commendation letter and first-priority leave next window.",
+    event:"Covers REST-day and Flex deployments across 5 consecutive study leave weeks. The quiet MVP.", eventType:"amber",
+    archetype:["hero","anchor"], tags:["Irish","Gaeltacht","PGY-4"] },
+  { id:44, scenario:7, scenarioName:"The Exam Season Crush", verdict:"breakdown",
+    name:"Dr. Aoibhinn Heneghan", role:"clinical", pgy:"PGY-2", nationality:"Irish",
+    description:"Junior resident not sitting any exam this window. Absorbs extra Long shifts and Flex deployments alongside Orla. Also formally recognised.",
+    event:"Covers multiple extended shifts. First-priority leave next window awarded.", eventType:"amber",
+    archetype:["hero"], tags:["Irish","PGY-2"] },
+  { id:45, scenario:7, scenarioName:"The Exam Season Crush", verdict:"breakdown",
+    name:"Dr. Luke Stapleton", role:"clinical", pgy:"PGY-2", nationality:"Irish",
+    description:"PGY-2 sitting MRCPCH Part 1 Nov 5. Upset that his prep day is moved from Nov 6 to Nov 4 due to rota capacity. Accepts the reasoning when explained. Passes.",
+    event:"Prep day moved by 2 days. Sits exam Nov 5 alongside three others. Passes Part 1.", eventType:"amber",
+    archetype:[], tags:["Irish","PGY-2"] },
+  { id:46, scenario:7, scenarioName:"The Exam Season Crush", verdict:"breakdown",
+    name:"Dr. Patricia Nwosu", role:"rf", pgy:"RF", nationality:"Nigerian-Irish",
+    description:"RF1 in the exam crush scenario. Covers nights on Nov 5 — the hardest single day — as the last piece of cover when all other options are exhausted.",
+    event:"1 RF goodwill shift (Nov 5 nights). Pre-arranged in Week 14. Critical contribution to keeping the rota intact.", eventType:"amber",
+    archetype:["hero"], tags:["Nigerian-Irish","RF"] },
+
+  // ═══ SCENARIO 08: CASCADING SICK LEAVE ═══
+  { id:47, scenario:8, scenarioName:"Cascading Sick Leave", verdict:"stressed",
+    name:"Dr. Tara Flanagan", role:"clinical", pgy:"PGY-4", nationality:"Irish",
+    description:"Senior resident who has been asked to swap or extend her shift three times by Week 12. Handles it professionally each time. Deserves recognition.",
+    event:"Swap 3 times before Week 12. Gets a 1:1 acknowledgment and first-choice shift in final 4 weeks.", eventType:"amber",
+    archetype:["hero"], tags:["Irish","PGY-4"] },
+  { id:48, scenario:8, scenarioName:"Cascading Sick Leave", verdict:"stressed",
+    name:"Dr. Pádraig Ó'Laoire", role:"clinical", pgy:"PGY-2", nationality:"Irish",
+    description:"Junior PGY-2 who is NOT allowed to hold PNW Long solo. Correctly deployed to OPD standard only when Tara is sick. Gains experience without being over-extended.",
+    event:"Week 11 supervision decision formally documented. PGY-2 + PNW Long solo = not acceptable.", eventType:"amber",
+    archetype:[], tags:["Irish","PGY-2"] },
+  { id:49, scenario:8, scenarioName:"Cascading Sick Leave", verdict:"stressed",
+    name:"Dr. Amelia Walsh", role:"clinical", pgy:"PGY-3", nationality:"Irish",
+    description:"Good team player who covers two nights during Ivan's sick week — Wed and Thu — as an extended swap. Gets TOIL.",
+    event:"Covers Wed+Thu nights during Ivan's back pain absence. TOIL documented.", eventType:"amber",
+    archetype:[], tags:["Irish","PGY-3"] },
+  { id:50, scenario:8, scenarioName:"Cascading Sick Leave", verdict:"stressed",
+    name:"Dr. Conall Breathnach", role:"clinical", pgy:"PGY-2", nationality:"Irish (Gaeltacht)",
+    description:"Enthusiastic junior. Develops anxiety/stress leading to 3 days sick leave in Week 16. Fortunately his REST days absorb the worst of the gap.",
+    event:"3-day stress absence Week 16. Flex absorbs. OH check-in offered and accepted.", eventType:"amber",
+    archetype:["burnout"], tags:["Irish","Gaeltacht","PGY-2","burnout"] },
+  { id:51, scenario:8, scenarioName:"Cascading Sick Leave", verdict:"stressed",
+    name:"Dr. Miriam Johansson", role:"rf", pgy:"RF", nationality:"Swedish",
+    description:"Reliable Swedish RF. Covers 2 nights goodwill during Ivan's back pain week — the critical overnight gap that couldn't be covered any other way.",
+    event:"2 RF goodwill shifts (Mon+Tue nights). Remaining reserve: 3. Briefed on remaining balance.", eventType:"amber",
+    archetype:[], tags:["Swedish","RF"] },
+
+  // ═══ SCENARIO 09: RF COLLAPSE ═══
+  { id:52, scenario:9, scenarioName:"The RF Collapse", verdict:"stressed",
+    name:"Dr. Ana Petrova", role:"rf", pgy:"RF", nationality:"Bulgarian-Irish",
+    description:"The sole surviving RF from Week 9. Remains dedicated and professional throughout. Agrees to cover one extra Block B weekend above obligation — but respectfully declines to cover all three. Her limits are respected.",
+    event:"Covers Oct 3–4 (obligatory) and Oct 17–18 (1 goodwill weekend). Remaining goodwill carefully rationed for sick leave events.", eventType:"amber",
+    archetype:["hero","anchor"], tags:["Bulgarian-Irish","RF"] },
+  { id:53, scenario:9, scenarioName:"The RF Collapse", verdict:"stressed",
+    name:"Dr. Carlos Reyes", role:"rf", pgy:"RF", nationality:"Spanish-Irish",
+    description:"Research Fellow who leaves Week 6 due to a family emergency requiring immediate return to Spain. Non-negotiable. His Block B weekend (Oct 3–4) becomes unassigned.",
+    event:"Departs Week 6. Block B weekend reassigned to Ana.", eventType:"red",
+    archetype:[], tags:["Spanish-Irish","RF"] },
+  { id:54, scenario:9, scenarioName:"The RF Collapse", verdict:"stressed",
+    name:"Dr. Niamh Fahey", role:"rf", pgy:"RF", nationality:"Irish",
+    description:"Research Fellow whose contract is terminated at Week 8 for three consecutive no-shows with no communication. Third no-show without explanation triggers formal process.",
+    event:"Contract terminated. Employment law documentation maintained. Block B weekend (Oct 10–11) also unassigned.", eventType:"red",
+    archetype:["problematic"], tags:["Irish","RF","AWOL"] },
+  { id:55, scenario:9, scenarioName:"The RF Collapse", verdict:"stressed",
+    name:"Dr. Theresa Okafor", role:"clinical", pgy:"PGY-3", nationality:"Nigerian-Irish",
+    description:"Excellent clinician who covers the Oct 10 Saturday as overtime pay — the creative solution when no RF is available for the third Block B weekend.",
+    event:"Covers NICU+SCBU Sat Oct 10 at weekend overtime rate. TOIL Monday. Formally documented.", eventType:"amber",
+    archetype:["hero"], tags:["Nigerian-Irish","PGY-3"] },
+  { id:56, scenario:9, scenarioName:"The RF Collapse", verdict:"stressed",
+    name:"Dr. Lukasz Kowal", role:"clinical", pgy:"PGY-3", nationality:"Polish",
+    description:"Precise and dependable. Covers the Oct 11 Sunday as overtime pay when no RF is available.",
+    event:"Covers NICU+SCBU Sun Oct 11 at weekend overtime rate. TOIL Monday. Formally documented.", eventType:"amber",
+    archetype:[], tags:["Polish","PGY-3"] },
+
+  // ═══ SCENARIO 10: OVERLEAVE CLUSTER ═══
+  { id:57, scenario:10, scenarioName:"The Overleave Cluster", verdict:"robust",
+    name:"Dr. Rián Ó'Briain", role:"clinical", pgy:"PGY-4", nationality:"Irish",
+    description:"Requests 22 days annual leave — 4 over the 15-day limit. Claims seniority justifies it. Appeals to clinical director. Director upholds the limit.",
+    event:"Leave cut to 15 days. Visibly difficult for 3 weeks. Clinically adequate throughout.", eventType:"amber",
+    archetype:["problematic"], tags:["Irish","PGY-4"] },
+  { id:58, scenario:10, scenarioName:"The Overleave Cluster", verdict:"robust",
+    name:"Dr. Blessing Ogwu", role:"clinical", pgy:"PGY-3", nationality:"Nigerian-Irish",
+    description:"Requests 17 AL + 18 SL = 35 days total. Tries to reclassify 2 declined AL days as study leave. Escalates to college training officer — who doesn't override the decision.",
+    event:"13 AL + 4 SL approved. Uses every single approved day efficiently.", eventType:"amber",
+    archetype:["problematic"], tags:["Nigerian-Irish","PGY-3"] },
+  { id:59, scenario:10, scenarioName:"The Overleave Cluster", verdict:"robust",
+    name:"Dr. Fionnula Harte", role:"clinical", pgy:"PGY-3", nationality:"Irish",
+    description:"Wants all 15 days in August. Won't compromise initially. Rota lead invokes the 2-simultaneous rule formally. She takes 10 Aug + 5 Oct. Sulks.",
+    event:"Leave redistributed under the formal rule. Clinical performance unaffected. Remains frosty.", eventType:"amber",
+    archetype:["problematic"], tags:["Irish","PGY-3"] },
+  { id:60, scenario:10, scenarioName:"The Overleave Cluster", verdict:"robust",
+    name:"Dr. Karl Svenson", role:"clinical", pgy:"PGY-3", nationality:"Swedish-Irish",
+    description:"Wants 2 isolated single AL days. Claims EU working time rights. Single-day requests approved only where Flex is free and no simultaneous absence. Nov 20 declined — moved to Nov 13.",
+    event:"Sep 17 approved. Nov 20 declined, moved. Complains about EWTD. Irrelevant.", eventType:"amber",
+    archetype:["problematic"], tags:["Swedish-Irish","PGY-3"] },
+  { id:61, scenario:10, scenarioName:"The Overleave Cluster", verdict:"robust",
+    name:"Dr. Adaeze Nwankwo", role:"clinical", pgy:"PGY-4", nationality:"Nigerian-Irish",
+    description:"The lone compliant resident in a difficult cohort. Perfect leave application — correct dates, correct form, correct blocks. Quietly frustrated watching colleagues consume admin time.",
+    event:"All leave approved first submission. A quiet pleasure to manage.", eventType:"green",
+    archetype:["anchor"], tags:["Nigerian-Irish","PGY-4"] },
+
+  // ═══ SCENARIO 11: WINTER VIRAL SURGE ═══
+  { id:62, scenario:11, scenarioName:"The Winter Viral Surge", verdict:"breakdown",
+    name:"Dr. Alinta Watson", role:"rf", pgy:"RF", nationality:"Aboriginal-Australian-Irish",
+    description:"RF2 who remains healthy throughout the norovirus wave. Pre-briefed for goodwill nights cover. Covers Tue+Wed nights on Nov 18–19 — the most critical two nights of the entire scenario.",
+    event:"2 RF goodwill shifts (Tue+Wed Nov 18–19). Receives formal letter of thanks from clinical director.", eventType:"amber",
+    archetype:["hero"], tags:["Aboriginal-Australian-Irish","RF"] },
+  { id:63, scenario:11, scenarioName:"The Winter Viral Surge", verdict:"breakdown",
+    name:"Dr. Lara Pettersson", role:"clinical", pgy:"PGY-4", nationality:"Swedish-Irish",
+    description:"PGY-4 who extends her NICU standard to cover Orla's Long shift on Nov 18 — volunteering on the crisis day when three residents are simultaneously sick.",
+    event:"Extends NICU standard to Long on Nov 18. TOIL arranged.", eventType:"amber",
+    archetype:["hero"], tags:["Swedish-Irish","PGY-4"] },
+  { id:64, scenario:11, scenarioName:"The Winter Viral Surge", verdict:"breakdown",
+    name:"Dr. Tara Lyons", role:"clinical", pgy:"PGY-4", nationality:"Irish",
+    description:"On annual leave Nov 10–12 — meaning she's unavailable for the very start of the wave. Returns and immediately covers Ravi's PNW shift on Nov 18.",
+    event:"Covers PNW on Nov 18 from REST. Receives TOIL Thursday. Timing of her AL slightly unfortunate but manageable.", eventType:"amber",
+    archetype:[], tags:["Irish","PGY-4"] },
+  { id:65, scenario:11, scenarioName:"The Winter Viral Surge", verdict:"breakdown",
+    name:"Dr. Cian Murphy", role:"rf", pgy:"RF", nationality:"Irish",
+    description:"RF1 who catches norovirus himself on Nov 18 — his 5-shift goodwill reserve is frozen while he's unwell. His Block B weekend was already completed.",
+    event:"Gets norovirus Nov 18. Reserves frozen but no duty missed. Returns fully recovered.", eventType:"amber",
+    archetype:[], tags:["Irish","RF"] },
+
+  // ═══ SCENARIO 12: HIGH-ACHIEVER BURNOUT ═══
+  { id:66, scenario:12, scenarioName:"The High-Achiever Burnout", verdict:"stressed",
+    name:"Dr. Caoimhe Ó'Ceallaigh", role:"clinical", pgy:"PGY-4", nationality:"Irish",
+    description:"PGY-4 who self-presents to Occupational Health after sleeping 4 hours/night and losing 8kg. Had a panic attack on the ward in Week 11 — witnessed by a consultant who initiates the referral.",
+    event:"Signed off 3 weeks (Week 12–14). Phased return Week 15 (days only). Full duties Week 17.", eventType:"red",
+    archetype:["burnout"], tags:["Irish","PGY-4","burnout","panic-attack"] },
+  { id:67, scenario:12, scenarioName:"The High-Achiever Burnout", verdict:"stressed",
+    name:"Dr. Femi Babatunde", role:"clinical", pgy:"PGY-4", nationality:"Nigerian-Irish",
+    description:"Develops burnout by Week 14 but refuses occupational health. Pushes through. By Week 15 is making minor documentation errors caught by nursing staff — escalates to a safety concern.",
+    event:"Ordered to attend OH as condition of continued practice. Signed off 2 weeks exhaustion+anxiety. Returns Week 18 phased.", eventType:"red",
+    archetype:["burnout","problematic"], tags:["Nigerian-Irish","PGY-4","burnout"] },
+  { id:68, scenario:12, scenarioName:"The High-Achiever Burnout", verdict:"stressed",
+    name:"Dr. Julia Wróbel", role:"clinical", pgy:"PGY-3", nationality:"Polish-Irish",
+    description:"Solid PGY-3 who volunteers to cover one of Caoimhe's nights — swaps her Tuesday Long for the night shift. Gets TOIL Friday.",
+    event:"Night cover Week 13. TOIL documented and honoured.", eventType:"amber",
+    archetype:["hero"], tags:["Polish-Irish","PGY-3"] },
+  { id:69, scenario:12, scenarioName:"The High-Achiever Burnout", verdict:"stressed",
+    name:"Dr. Nkechi Ezemenari", role:"clinical", pgy:"PGY-3", nationality:"Nigerian-Irish",
+    description:"Excellent clinician who volunteers the 4th night of Caoimhe's nights week. Formally documented and compensated.",
+    event:"4th night covered voluntarily. Compensation and formal recognition from rota lead.", eventType:"amber",
+    archetype:["hero"], tags:["Nigerian-Irish","PGY-3"] },
+  { id:70, scenario:12, scenarioName:"The High-Achiever Burnout", verdict:"stressed",
+    name:"Dr. Áine Costello", role:"clinical", pgy:"PGY-2", nationality:"Irish",
+    description:"PGY-2 who covers Femi's PNW Long shift under Eamonn's supervision during Week 16. Demonstrates good development — within her competency with appropriate safeguard.",
+    event:"Covers PNW Long under supervision. Correctly identified as acceptable with safeguard.", eventType:"amber",
+    archetype:[], tags:["Irish","PGY-2"] },
+
+  // ═══ SCENARIO 13: THE INTERNATIONAL COHORT ═══
+  { id:71, scenario:13, scenarioName:"The International Cohort", verdict:"robust",
+    name:"Dr. Yosra Ben Salah", role:"clinical", pgy:"PGY-4", nationality:"Tunisian-Irish",
+    description:"Excellent PGY-4 with full credentials. Prefers single-day cultural leave (Mawlid, family events) rather than blocks. Creates minor administrative novelty but no clinical impact.",
+    event:"4 single-day cultural leave exceptions approved in writing. Remaining 11 days taken as Aug block.", eventType:"green",
+    archetype:[], tags:["Tunisian-Irish","PGY-4","international"] },
+  { id:72, scenario:13, scenarioName:"The International Cohort", verdict:"robust",
+    name:"Dr. Piotr Jaworski", role:"clinical", pgy:"PGY-3", nationality:"Polish",
+    description:"Arrives Week 1 with Irish Medical Council registration delayed — cannot hold Nights independently until Week 3 when credentials are confirmed. Anna supervises his first nights.",
+    event:"Credentials confirmed Week 3. 10 days October leave (clean). No further restrictions.", eventType:"amber",
+    archetype:[], tags:["Polish","PGY-3","international","credentials"] },
+  { id:73, scenario:13, scenarioName:"The International Cohort", verdict:"robust",
+    name:"Dr. Hyun-Ji Kwon", role:"clinical", pgy:"PGY-2", nationality:"Korean",
+    description:"Technically excellent, very quiet. Struggles to raise concerns verbally — submits written notes instead. Almost causes a patient escalation delay in Week 4.",
+    event:"Mandatory verbal handover protocol implemented as accommodation (not performance management). Reviewed positively Week 8.", eventType:"amber",
+    archetype:["international"], tags:["Korean","PGY-2","international","communication"] },
+  { id:74, scenario:13, scenarioName:"The International Cohort", verdict:"robust",
+    name:"Dr. Reza Ahmadi", role:"clinical", pgy:"PGY-3", nationality:"Iranian",
+    description:"Strong clinician who attends Friday prayers once monthly — requires leaving by 13:00 on those Fridays. Manages this through 30-min early starts and OPD coverage by Adenike.",
+    event:"5 Friday arrangements across the window. Adenike covers afternoons; Reza reciprocates on her study leave days. Formally documented.", eventType:"green",
+    archetype:[], tags:["Iranian","PGY-3","international"] },
+  { id:75, scenario:13, scenarioName:"The International Cohort", verdict:"robust",
+    name:"Dr. Anna Kowalska", role:"clinical", pgy:"PGY-3", nationality:"Polish",
+    description:"Second Polish resident. Helps Piotr navigate the Irish rota and leave system in Week 1. Supervises Piotr's first nights when credentials are pending — her REST day disrupted once.",
+    event:"Forewarned and agrees to REST disruption. Piotr's first nights supervised safely.", eventType:"green",
+    archetype:["hero"], tags:["Polish","PGY-3","international"] },
+  { id:76, scenario:13, scenarioName:"The International Cohort", verdict:"robust",
+    name:"Dr. Fatou Diallo", role:"clinical", pgy:"PGY-3", nationality:"Senegalese-French-Irish",
+    description:"Natural bridge between cultural groups and clinical teams. Good communicator who navigates cultural and clinical roles well throughout the window.",
+    event:"No clinical incidents. Acts as informal cultural liaison during orientation week.", eventType:"green",
+    archetype:[], tags:["Senegalese-French-Irish","PGY-3","international"] },
+
+  // ═══ SCENARIO 14: THE DOMINO INJURY ═══
+  { id:77, scenario:14, scenarioName:"The Domino Injury", verdict:"breakdown",
+    name:"Dr. Ciaran Walsh", role:"clinical", pgy:"PGY-3", nationality:"Irish",
+    description:"Involved in RTA returning from departmental social event. Requires 6 weeks off (Weeks 11–16). Locum sourced but only available from Week 14.",
+    event:"6-week absence. Locum (Week 14) bridges the final 3 weeks. Full duties restored post-locum.", eventType:"red",
+    archetype:[], tags:["Irish","PGY-3","injury","RTA"] },
+  { id:78, scenario:14, scenarioName:"The Domino Injury", verdict:"breakdown",
+    name:"Dr. Bola Fashola", role:"clinical", pgy:"PGY-3", nationality:"Nigerian-Irish",
+    description:"Also injured in the same RTA. Back injury — 3 weeks off then 3 weeks restricted duties (no nights, no Long shifts). Returns full duties Week 17.",
+    event:"Back in Week 14 (restricted). Emre covers all 4 nights Week 16. Bola full duties Week 17.", eventType:"red",
+    archetype:[], tags:["Nigerian-Irish","PGY-3","injury","RTA"] },
+  { id:79, scenario:14, scenarioName:"The Domino Injury", verdict:"breakdown",
+    name:"Dr. Roisín Hickey", role:"clinical", pgy:"PGY-4", nationality:"Irish",
+    description:"Takes charge immediately on the Monday of Week 11 when both residents are hospitalised. Covers Sunday night during the acute week. Receives TOIL Monday.",
+    event:"Sunday night cover. TOIL documented. Senior anchor throughout the crisis.", eventType:"amber",
+    archetype:["anchor","hero"], tags:["Irish","PGY-4"] },
+  { id:80, scenario:14, scenarioName:"The Domino Injury", verdict:"breakdown",
+    name:"Dr. Nnamdi Obi", role:"clinical", pgy:"PGY-4", nationality:"Nigerian-Irish",
+    description:"Senior resident who covers Tuesday NICU Long from his REST day in Week 11. Also serves as informal Flex during Week 15 when Ciaran is the designated Flex but absent.",
+    event:"TOIL documented. Critical informal Flex cover Week 15. Named explicitly for recognition.", eventType:"amber",
+    archetype:["hero"], tags:["Nigerian-Irish","PGY-4"] },
+  { id:81, scenario:14, scenarioName:"The Domino Injury", verdict:"breakdown",
+    name:"Dr. Aigerim Bekova", role:"clinical", pgy:"PGY-3", nationality:"Kazakh-Irish",
+    description:"Extends from standard to Long on 3 of 5 days during Ciaran's Week 13 PNW Long absence. Significant extra load — formally recognised.",
+    event:"3 days Long extension Week 13. TOIL and formal recognition.", eventType:"amber",
+    archetype:["hero"], tags:["Kazakh-Irish","PGY-3"] },
+  { id:82, scenario:14, scenarioName:"The Domino Injury", verdict:"breakdown",
+    name:"Dr. Eoin Lawlor", role:"rf", pgy:"RF", nationality:"Irish",
+    description:"RF1 who covers 4 goodwill shifts — 2 nights in Week 12 and 2 weekend day shifts in Week 16. With 1 goodwill shift remaining, formally notified of his balance.",
+    event:"4 goodwill shifts used. Final balance (1 shift) formally communicated. No further assumption of availability.", eventType:"amber",
+    archetype:[], tags:["Irish","RF"] },
+
+  // ═══ SCENARIO 15: GRIEF LEAVE CLUSTER ═══
+  { id:83, scenario:15, scenarioName:"The Grief Leave Cluster", verdict:"robust",
+    name:"Dr. Emeka Dike", role:"clinical", pgy:"PGY-3", nationality:"Nigerian-Irish",
+    description:"Father dies Week 9. Travels to Nigeria for funeral and burial rites — extended compassionate leave (10 days) approved by clinical director, recognising Nigerian cultural context. Returns emotionally affected but professionally functional.",
+    event:"10-day compassionate leave. Team rallies around him visibly. Aleksei volunteers nights before being asked.", eventType:"amber",
+    archetype:[], tags:["Nigerian-Irish","PGY-3","bereavement"] },
+  { id:84, scenario:15, scenarioName:"The Grief Leave Cluster", verdict:"robust",
+    name:"Dr. Aoife Kearney", role:"clinical", pgy:"PGY-4", nationality:"Irish",
+    description:"Grandmother dies Week 3. Statutory 3 days compassionate leave. Professional throughout. Template position (PNW Long) absorbed cleanly by Flex.",
+    event:"3-day compassionate leave. Returns Thursday. No further impact.", eventType:"green",
+    archetype:[], tags:["Irish","PGY-4","bereavement"] },
+  { id:85, scenario:15, scenarioName:"The Grief Leave Cluster", verdict:"robust",
+    name:"Dr. Saoirse Moran", role:"clinical", pgy:"PGY-2", nationality:"Irish",
+    description:"Pet bereavement — not recognised under HSE policy. Visibly distressed. Rota lead grants 1 day uncertified sick leave without spectacle. Saoirse is grateful and professional thereafter.",
+    event:"1-day uncertified sick leave. No team briefing on reason. Handled with complete discretion.", eventType:"green",
+    archetype:[], tags:["Irish","PGY-2","bereavement"] },
+  { id:86, scenario:15, scenarioName:"The Grief Leave Cluster", verdict:"robust",
+    name:"Dr. Aleksei Ivanov", role:"clinical", pgy:"PGY-3", nationality:"Russian-Irish",
+    description:"Volunteers 2 nights cover during Emeka's bereavement absence before the rota lead asks. The clearest example in any scenario of good leadership producing voluntary goodwill.",
+    event:"2 nights voluntary cover (TOIL). Volunteered before being asked — marker of healthy team culture.", eventType:"green",
+    archetype:["hero"], tags:["Russian-Irish","PGY-3"] },
+  { id:87, scenario:15, scenarioName:"The Grief Leave Cluster", verdict:"robust",
+    name:"Dr. Yewande Taiwo", role:"clinical", pgy:"PGY-3", nationality:"Nigerian-Irish",
+    description:"Infant cousin dies (stillbirth in the family) Week 16. 2 days discretionary compassionate leave — approved immediately. Her REST days that week mean no rota impact.",
+    event:"2-day compassionate leave approved within hours. On REST those days — zero rota impact.", eventType:"green",
+    archetype:[], tags:["Nigerian-Irish","PGY-3","bereavement"] },
+
+  // ═══ SCENARIO 16: STUDY LEAVE ARMS RACE ═══
+  { id:88, scenario:16, scenarioName:"The Study Leave Arms Race", verdict:"stressed",
+    name:"Dr. (P8 — Arms Race)", role:"clinical", pgy:"PGY-3", nationality:"Irish",
+    description:"Submits a 'Bespoke neonatal leadership course, online — no accreditation, self-directed' as study leave. Declined on audit. Represents the worst type of study leave request.",
+    event:"Declined. No external booking, no accreditation.", eventType:"red",
+    archetype:["problematic"], tags:["Irish","PGY-3"] },
+  { id:89, scenario:16, scenarioName:"The Study Leave Arms Race", verdict:"stressed",
+    name:"Dr. (P2, P4, P7 — Deferred MRCPCH)", role:"clinical", pgy:"PGY-3", nationality:"Irish",
+    description:"Three residents who genuinely want to sit MRCPCH Part 2 in October but cannot — rota can only absorb 2 per week. Offered a supporting letter to the RCPCH explaining the constraint.",
+    event:"Deferred to January 2027 diet. Supporting letter from department offered. Disappoint but accept.", eventType:"amber",
+    archetype:[], tags:["Irish","PGY-3"] },
+
+  // ═══ SCENARIO 17: UNDERSTAFFED WINTER ═══
+  { id:90, scenario:17, scenarioName:"The Understaffed Winter", verdict:"breakdown",
+    name:"Dr. Łukasz Nowak", role:"clinical", pgy:"PGY-3", nationality:"Polish",
+    description:"Covers Thursday night voluntarily from his REST day in the Dec 9 crisis. Develops back pain Dec 14 — possibly aggravated by the night shift posture (pre-existing condition). OH investigation confirms pre-existing not work-caused.",
+    event:"Night cover Dec 9. Back pain sick leave Dec 14–16. OH investigation — pre-existing. Should not have been asked given known back condition.", eventType:"red",
+    archetype:[], tags:["Polish","PGY-3"] },
+  { id:91, scenario:17, scenarioName:"The Understaffed Winter", verdict:"breakdown",
+    name:"Dr. Ingrid Almqvist", role:"clinical", pgy:"PGY-3", nationality:"Swedish-Irish",
+    description:"The Flex person on Dec 9 — the hardest day. Correctly declines to cover Thursday night after already covering NICU Long during the day. Consecutive day+night not acceptable.",
+    event:"Extends OPD to NICU Long day shift. Correctly declines overnight. Professional boundary held.", eventType:"green",
+    archetype:[], tags:["Swedish-Irish","PGY-3"] },
+  { id:92, scenario:17, scenarioName:"The Understaffed Winter", verdict:"breakdown",
+    name:"Dr. Nneka Obi", role:"clinical", pgy:"PGY-3", nationality:"Nigerian-Irish",
+    description:"Covers Wednesday night voluntarily during the Dec 9 crisis (swap). On REST after study leave the preceding days — available.",
+    event:"Wednesday night volunteer cover Dec 9. TOIL arranged.", eventType:"amber",
+    archetype:["hero"], tags:["Nigerian-Irish","PGY-3"] },
+  { id:93, scenario:17, scenarioName:"The Understaffed Winter", verdict:"breakdown",
+    name:"Dr. Beatrix Farkas", role:"rf", pgy:"RF", nationality:"Hungarian-Irish",
+    description:"RF1 with 3 goodwill shifts remaining in December. Pre-arranged for Monday night Dec 8. Professional and responsive.",
+    event:"1 goodwill shift Monday night Dec 8. Remaining balance: 2.", eventType:"amber",
+    archetype:[], tags:["Hungarian-Irish","RF"] },
+
+  // ═══ SCENARIO 18: RF HEROES ═══
+  { id:94, scenario:18, scenarioName:"The RF Heroes", verdict:"breakdown",
+    name:"Dr. Aoife Breathnach", role:"rf", pgy:"RF", nationality:"Irish",
+    description:"RF1 described as someone who moonlights as locum weekends elsewhere and is deeply familiar with the neonatal ward. Would be an excellent clinical resident if that were her role. Agrees to cover NICU Long Mon–Wed in the emergency week.",
+    event:"3 goodwill shifts (NICU Long). All with consultant countersignature. Commendation letter to supervisor + extra study leave day.", eventType:"amber",
+    archetype:["hero"], tags:["Irish","RF"] },
+  { id:95, scenario:18, scenarioName:"The RF Heroes", verdict:"breakdown",
+    name:"Dr. Kwabena Asante", role:"rf", pgy:"RF", nationality:"Ghanaian-Irish",
+    description:"Warm RF, respected by nursing staff. Has covered nights previously. Agrees to cover nights Mon–Wed in the emergency week.",
+    event:"3 goodwill shifts (nights Mon–Wed). Commendation letter + extra study leave day.", eventType:"amber",
+    archetype:["hero"], tags:["Ghanaian-Irish","RF"] },
+  { id:96, scenario:18, scenarioName:"The RF Heroes", verdict:"breakdown",
+    name:"Dr. Yuki Ito", role:"rf", pgy:"RF", nationality:"Japanese-Irish",
+    description:"Precise, methodical RF described as excellent at SCBU. Covers SCBU standard Sep 7–10 — 4 consecutive goodwill shifts, the highest single-person commitment of any RF in any scenario.",
+    event:"4 goodwill shifts (SCBU Sep 7–10). Commendation letter + extra study leave day.", eventType:"amber",
+    archetype:["hero"], tags:["Japanese-Irish","RF"] },
+
+  // ═══ SCENARIO 19: THE COMPLAINT CHAIN ═══
+  { id:97, scenario:19, scenarioName:"The Complaint Chain", verdict:"robust",
+    name:"Dr. Marco Russo", role:"clinical", pgy:"PGY-3", nationality:"Italian-Irish",
+    description:"Has a prior history of successful formal complaints. Files a 3-allegation grievance in Week 4. Professional on the ward throughout. Two of three allegations are upheld (partially/fully). His complaint produces genuine systemic improvements.",
+    event:"2 allegations upheld. Gets Nov 3–7 leave approved as remedy. Flex formula published. System improved.", eventType:"amber",
+    archetype:["problematic"], tags:["Italian-Irish","PGY-3"] },
+  { id:98, scenario:19, scenarioName:"The Complaint Chain", verdict:"robust",
+    name:"Dr. Lena Kaur", role:"clinical", pgy:"PGY-3", nationality:"Indian-Irish",
+    description:"Her leave (Oct 13–17) was approved over Marco's because she submitted earlier. The correct decision — but an administrative timestamping failure meant this couldn't be proven initially.",
+    event:"Leave approved correctly. Caught in the grievance process through no fault of her own.", eventType:"green",
+    archetype:[], tags:["Indian-Irish","PGY-3"] },
+  { id:99, scenario:19, scenarioName:"The Complaint Chain", verdict:"robust",
+    name:"Dr. Aifric Ní Cheallaigh", role:"clinical", pgy:"PGY-4", nationality:"Irish",
+    description:"Senior, fair-minded. Quietly asks the rota lead if she can have all arrangements in writing during the grievance period — a sensible protective response.",
+    event:"All arrangements formally documented during Weeks 4–9. Normal relationship restored Week 11.", eventType:"green",
+    archetype:[], tags:["Irish","PGY-4"] },
+  { id:100, scenario:19, scenarioName:"The Complaint Chain", verdict:"robust",
+    name:"Dr. Hannah O'Reilly", role:"clinical", pgy:"PGY-2", nationality:"Irish",
+    description:"New PGY-2, watching everything carefully. Bewildered by the grievance process but learns a lot about how formal rota disputes work.",
+    event:"No direct impact. Observational learning. Emerges from the window more rota-literate than she started.", eventType:"green",
+    archetype:[], tags:["Irish","PGY-2"] },
+
+  // ═══ SCENARIO 20: THE PERFECT STORM ═══
+  { id:101, scenario:20, scenarioName:"The Perfect Storm", verdict:"breakdown",
+    name:"Dr. Aoife Hannigan", role:"clinical", pgy:"PGY-4", nationality:"Irish",
+    description:"One of two anchors in the Perfect Storm scenario. Extends her NICU standard to cover PNW Long on Oct 20 (Esther's first day absent). Covers Night 4 on Oct 29 — her second above-and-beyond act in 10 days. If she had said no, nights would have been uncovered.",
+    event:"Extended Oct 20. Night 4 Oct 29. TOIL Friday. Clinical director personally acknowledges her contribution.", eventType:"amber",
+    archetype:["hero","anchor"], tags:["Irish","PGY-4"] },
+  { id:102, scenario:20, scenarioName:"The Perfect Storm", verdict:"breakdown",
+    name:"Dr. Ananya Krishnan", role:"clinical", pgy:"PGY-4", nationality:"Indian-Irish",
+    description:"The second anchor. Volunteers Night 2 (Oct 27) without being asked. Gets TOIL Wednesday. Her presence alongside Aoife is what keeps the rota from collapsing.",
+    event:"Night 2 volunteer cover. TOIL documented. Named explicitly for recognition.", eventType:"amber",
+    archetype:["hero","anchor"], tags:["Indian-Irish","PGY-4"] },
+  { id:103, scenario:20, scenarioName:"The Perfect Storm", verdict:"breakdown",
+    name:"Dr. Esther Okafor", role:"clinical", pgy:"PGY-3", nationality:"Nigerian-Irish",
+    description:"Excellent clinician who develops acute appendicitis on Oct 20 — emergency surgical admission. Off work 3 weeks minimum. A genuinely unforeseeable event that detonates at the worst possible moment.",
+    event:"Admitted Oct 20. 3-week minimum off. Locum requested immediately — available Week 18.", eventType:"red",
+    archetype:[], tags:["Nigerian-Irish","PGY-3","surgical","emergency"] },
+  { id:104, scenario:20, scenarioName:"The Perfect Storm", verdict:"breakdown",
+    name:"Dr. Conal Higgins", role:"clinical", pgy:"PGY-3", nationality:"Irish",
+    description:"Goes AWOL Oct 26 — later identified as a mental health crisis. He is with family. HR process initiated sensitively — formal absence on Day 5, not Day 1. EAP activated.",
+    event:"AWOL Oct 26. Mental health crisis. 4-week minimum off. Phased return with OH + EAP sign-off required before nights.", eventType:"red",
+    archetype:["burnout","problematic"], tags:["Irish","PGY-3","mental-health","AWOL"] },
+  { id:105, scenario:20, scenarioName:"The Perfect Storm", verdict:"breakdown",
+    name:"Dr. Saoirse Ní Fhaoláin", role:"clinical", pgy:"PGY-2", nationality:"Irish",
+    description:"Junior PGY-2 who steps up as the Flex person Oct 26 — her first major Flex deployment. Absorbs Conal's SCBU Long. She handles it.",
+    event:"First major Flex deployment. Handles it competently. Noted as a positive development marker.", eventType:"amber",
+    archetype:[], tags:["Irish","PGY-2"] },
+  { id:106, scenario:20, scenarioName:"The Perfect Storm", verdict:"breakdown",
+    name:"Dr. Rachel Byrne", role:"clinical", pgy:"PGY-2", nationality:"Irish",
+    description:"Junior PGY-2 who covers Sunday night Nov 1 — her first time covering nights. Consultant present. A significant moment in her development under the worst possible circumstances.",
+    event:"First ever night cover. Consultant on-site. Managed safely.", eventType:"amber",
+    archetype:[], tags:["Irish","PGY-2"] },
+  { id:107, scenario:20, scenarioName:"The Perfect Storm", verdict:"breakdown",
+    name:"Dr. Tolu Adesanya", role:"clinical", pgy:"PGY-3", nationality:"Nigerian-Irish",
+    description:"On study leave Oct 19–20 (MRCPCH exam). Returns working normally and immediately volunteers Friday night Oct 30 — one of the weekend nights left uncovered by Finn's absence.",
+    event:"Returns from exam leave and immediately covers a voluntary Friday night. No TOIL expected.", eventType:"amber",
+    archetype:["hero"], tags:["Nigerian-Irish","PGY-3"] },
+  { id:108, scenario:20, scenarioName:"The Perfect Storm", verdict:"breakdown",
+    name:"Dr. Fionnuala Mac Giolla Chuda", role:"rf", pgy:"RF", nationality:"Irish",
+    description:"RF1 with 3 goodwill shifts remaining. Covers Monday night Oct 26. With 1 shift left after the storm, formally briefed on her balance.",
+    event:"1 goodwill shift (Mon Oct 26). 1 remaining. Balance communicated. No further assumption.", eventType:"amber",
+    archetype:[], tags:["Irish","RF"] },
+  { id:109, scenario:20, scenarioName:"The Perfect Storm", verdict:"breakdown",
+    name:"Dr. Emmanuel Osei", role:"rf", pgy:"RF", nationality:"Ghanaian-Irish",
+    description:"RF2 with 4 goodwill shifts. Covers Wednesday night Oct 28 and Saturday night Oct 31 — 2 goodwill shifts. 2 remaining for final 7 weeks.",
+    event:"2 goodwill shifts (Wed Oct 28, Sat Oct 31). 2 remaining. Critically thin reserve.", eventType:"amber",
+    archetype:[], tags:["Ghanaian-Irish","RF"] },
+];
+
+let activeTypeFilter = 'all';
+let activeVerdictFilter = null;
+let activeArchetypeFilter = null;
+
+const verdictColors = { robust: 'robust', stressed: 'stressed', breakdown: 'breakdown' };
+const scenarioColors = {
+  1:'#1a4f8c', 2:'#6a0dad', 3:'#c0392b', 4:'#d4820a', 5:'#1e6e3a',
+  6:'#8b0000', 7:'#4a0e8f', 8:'#0a6e6e', 9:'#5a3000', 10:'#2d5a00',
+  11:'#004f4f', 12:'#6e001a', 13:'#003f6e', 14:'#5a0a0a', 15:'#1a4a00',
+  16:'#4a004a', 17:'#002a6e', 18:'#006e3a', 19:'#3a3a00', 20:'#3a001a',
+};
+
+function buildCards() {
+  const main = document.getElementById('mainContent');
+  main.innerHTML = '<div class="no-results" id="noResults">No characters match your search.</div>';
+
+  // Group by scenario
+  const byScenario = {};
+  people.forEach(p => {
+    if (!byScenario[p.scenario]) byScenario[p.scenario] = [];
+    byScenario[p.scenario].push(p);
+  });
+
+  Object.keys(byScenario).sort((a,b)=>+a-+b).forEach(sc => {
+    const scenarioData = byScenario[sc];
+    const p = scenarioData[0];
+
+    const divider = document.createElement('div');
+    divider.className = 'section-divider';
+    divider.innerHTML = `<h2>Scenario ${sc.padStart(2,'0')} · ${p.scenarioName}</h2>`;
+    main.appendChild(divider);
+
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    grid.dataset.scenario = sc;
+    main.appendChild(grid);
+
+    scenarioData.forEach(person => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.dataset.id = person.id;
+      card.dataset.type = person.role;
+      card.dataset.verdict = person.verdict;
+      card.dataset.archetypes = person.archetype.join(' ');
+      card.dataset.searchText = [person.name, person.description, person.event,
+        person.nationality, person.pgy, person.scenarioName, ...person.tags,
+        ...person.archetype].join(' ').toLowerCase();
+
+      const roleLabel = person.role === 'clinical' ? 'Clinical Resident' :
+                        person.role === 'rf' ? 'Research Fellow' : 'Locum';
+      const stripeClass = person.role === 'clinical' ? 'stripe-clinical' :
+                          person.role === 'rf' ? 'stripe-rf' : 'stripe-locum';
+      const tagRoleClass = `tag-role-${person.role}`;
+      const verdictLabel = person.verdict === 'robust' ? 'Robust' :
+                           person.verdict === 'stressed' ? 'Stressed' : 'Breakdown';
+      const verdictClass = `tag-verdict-${person.verdict}`;
+      const badgeColor = scenarioColors[person.scenario] || '#333';
+      const eventClass = `event-${person.eventType}`;
+
+      const archetypeIcons = {
+        anchor: '⚓', hero: '🌟', problematic: '⚠', burnout: '🔥', international: '🌍'
+      };
+      const archetypeTags = person.archetype.map(a =>
+        `<span class="tag tag-pgy">${archetypeIcons[a]||''} ${a}</span>`
+      ).join('');
+
+      card.innerHTML = `
+        <div class="card-stripe ${stripeClass}"></div>
+        <div class="card-body">
+          <div class="card-scenario">Scenario ${String(person.scenario).padStart(2,'0')}</div>
+          <div class="card-name">${person.name}</div>
+          <div class="card-title">${roleLabel} · ${person.pgy} · ${person.nationality}</div>
+          <div class="card-tags">
+            <span class="tag ${tagRoleClass}">${roleLabel}</span>
+            <span class="tag ${verdictClass}">${verdictLabel}</span>
+            <span class="tag tag-pgy">${person.pgy}</span>
+            ${archetypeTags}
+          </div>
+          <div class="card-description">
+            ${person.description}
+            ${person.event ? `<div class="card-event ${eventClass}">${person.event}</div>` : ''}
+          </div>
+        </div>
+        <div class="scenario-badge" style="background:${badgeColor}">S${String(person.scenario).padStart(2,'0')}</div>
+      `;
+      grid.appendChild(card);
+    });
+  });
+}
+
+function filterCards() {
+  const query = document.getElementById('searchInput').value.toLowerCase();
+  const cards = document.querySelectorAll('.card');
+  let visible = 0;
+
+  cards.forEach(card => {
+    const matchesSearch = !query || card.dataset.searchText.includes(query);
+    const matchesType = activeTypeFilter === 'all' || card.dataset.type === activeTypeFilter;
+    const matchesVerdict = !activeVerdictFilter || card.dataset.verdict === activeVerdictFilter;
+    const matchesArchetype = !activeArchetypeFilter || card.dataset.archetypes.includes(activeArchetypeFilter);
+
+    const show = matchesSearch && matchesType && matchesVerdict && matchesArchetype;
+    card.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+
+  // Hide empty section headers
+  document.querySelectorAll('.section-divider').forEach(div => {
+    const grid = div.nextElementSibling;
+    if (grid) {
+      const hasVisible = [...grid.querySelectorAll('.card')].some(c => !c.classList.contains('hidden'));
+      div.style.display = hasVisible ? '' : 'none';
+      grid.style.display = hasVisible ? '' : 'none';
+    }
+  });
+
+  document.getElementById('countDisplay').textContent = `${visible} ${visible === 1 ? 'person' : 'people'}`;
+  document.getElementById('noResults').classList.toggle('visible', visible === 0);
+}
+
+function filterByType(type, btn) {
+  activeTypeFilter = type;
+  document.querySelectorAll('.filter-group:nth-child(2) .filter-btn').forEach(b => {
+    b.className = 'filter-btn';
+    if (b === btn) b.classList.add('active');
+  });
+  filterCards();
+}
+
+function filterByVerdict(verdict, btn) {
+  if (activeVerdictFilter === verdict) {
+    activeVerdictFilter = null;
+    btn.className = 'filter-btn';
+  } else {
+    activeVerdictFilter = verdict;
+    const colorMap = { robust: 'active-green', stressed: 'active-amber', breakdown: 'active-red' };
+    document.querySelectorAll('.filter-group:nth-child(3) .filter-btn').forEach(b => b.className = 'filter-btn');
+    btn.className = `filter-btn ${colorMap[verdict]}`;
+  }
+  filterCards();
+}
+
+function filterByArchetype(arch, btn) {
+  if (activeArchetypeFilter === arch) {
+    activeArchetypeFilter = null;
+    btn.className = 'filter-btn';
+  } else {
+    activeArchetypeFilter = arch;
+    document.querySelectorAll('.filter-group:nth-child(4) .filter-btn').forEach(b => b.className = 'filter-btn');
+    btn.className = 'filter-btn active-blue';
+  }
+  filterCards();
+}
+
+buildCards();
+filterCards();
+</script>
+</body>
+</html>
