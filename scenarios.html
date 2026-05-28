@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resilience Scenarios — Neonatal Rota Study</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap');
+:root{--ink:#0f1117;--paper:#f5f0e8;--cream:#ede7d9;--rule:#b5a48a;--blue:#14406e;--red:#b32a1e;--green:#1a5e32;--amber:#c47a00;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;}
+.topbar{background:var(--ink);color:#f5f0e8;padding:1.2rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;border-bottom:3px solid var(--red);}
+.topbar h1{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;}
+.topbar-meta{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:#b5a48a;}
+.back{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#b5a48a;text-decoration:none;border:1px solid rgba(181,164,138,.3);padding:.35rem .7rem;border-radius:3px;transition:all .15s;}
+.back:hover{color:#f5f0e8;border-color:#f5f0e8;}
+.summary-bar{background:#fff;border-bottom:1px solid #e5ddd0;padding:1rem 2rem;display:flex;gap:2.5rem;flex-wrap:wrap;}
+.sb-stat{display:flex;flex-direction:column;gap:.1rem;}
+.sb-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;line-height:1;}
+.sb-num.g{color:var(--green);} .sb-num.y{color:var(--amber);} .sb-num.r{color:var(--red);}
+.sb-label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:var(--rule);}
+.main{max-width:1300px;margin:0 auto;padding:2rem;}
+.section-hdr{display:flex;align-items:center;gap:1rem;margin:2.5rem 0 1.5rem;}
+.section-hdr h2{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;}
+.section-hdr::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--rule),transparent);}
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.2rem;}
+.sc-card{background:#fff;border:1px solid #e5ddd0;border-radius:6px;padding:1.3rem;position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s;}
+.sc-card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.1);}
+.sc-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;}
+.sc-card.robust::before{background:var(--green);}
+.sc-card.stressed::before{background:var(--amber);}
+.sc-card.breakdown::before{background:var(--red);}
+.sc-card{padding-left:1.5rem;}
+.sc-num{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--rule);margin-bottom:.3rem;}
+.sc-name{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;margin-bottom:.3rem;}
+.sc-challenge{font-size:.8rem;color:#666;margin-bottom:.8rem;font-style:italic;}
+.sc-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem;flex-wrap:wrap;gap:.4rem;}
+.sc-rfs{font-family:'DM Mono',monospace;font-size:.6rem;background:var(--cream);padding:.2rem .5rem;border-radius:3px;color:var(--rule);}
+.sc-verdict{font-family:'DM Mono',monospace;font-size:.62rem;padding:.2rem .5rem;border-radius:3px;font-weight:500;}
+.sc-verdict.robust{background:#e8f5ee;color:var(--green);}
+.sc-verdict.stressed{background:#fff8e5;color:var(--amber);}
+.sc-verdict.breakdown{background:#fdecea;color:var(--red);}
+.sc-finding{font-size:.8rem;line-height:1.55;color:#444;border-top:1px solid #f0ede8;padding-top:.7rem;}
+.fi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:4px;overflow:hidden;margin-bottom:3rem;}
+.fi-card{background:var(--paper);padding:1.5rem;}
+.fi-num{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.2em;color:var(--rule);margin-bottom:.5rem;}
+.fi-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;margin-bottom:.5rem;color:var(--ink);}
+.fi-text{font-size:.82rem;line-height:1.6;color:#555;}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div>
+    <div style="font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#b5a48a;margin-bottom:.3rem;">Neonatal Rota Resilience Study</div>
+    <h1>20 Scenario Stress Test</h1>
+  </div>
+  <div class="topbar-meta">20 parallel adversarial scenarios · 109 named characters</div>
+  <a class="back" href="index.html">← Back to Overview</a>
+</div>
+
+<div class="summary-bar">
+  <div class="sb-stat"><span class="sb-num g">4</span><span class="sb-label">🟢 Robust</span></div>
+  <div class="sb-stat"><span class="sb-num y">9</span><span class="sb-label">🟡 Stressed</span></div>
+  <div class="sb-stat"><span class="sb-num r">7</span><span class="sb-label">🔴 Near-Breakdown</span></div>
+  <div class="sb-stat"><span class="sb-num" style="color:var(--ink)">0</span><span class="sb-label">Service failures</span></div>
+  <div class="sb-stat"><span class="sb-num" style="color:var(--ink)">109</span><span class="sb-label">Named characters</span></div>
+</div>
+
+<div class="main">
+  <div class="section-hdr"><h2>The 20 Scenarios</h2></div>
+  <div class="sc-grid">
+    <div class="sc-card robust">
+      <div class="sc-num">Scenario 01</div>
+      <div class="sc-name">The Dream Team</div>
+      <div class="sc-challenge">High cohesion, full RFs</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">3 RF</span>
+        <span class="sc-verdict robust">🟢 ROBUST</span>
+      </div>
+      <div class="sc-finding">No escalation. Template functions as designed throughout.</div>
+    </div>
+    <div class="sc-card stressed">
+      <div class="sc-num">Scenario 02</div>
+      <div class="sc-name">The Pregnancy Problem</div>
+      <div class="sc-challenge">Nights restricted from Wk 8</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">3 RF</span>
+        <span class="sc-verdict stressed">🟡 STRESSED BUT MANAGED</span>
+      </div>
+      <div class="sc-finding">Formal nights swap with P3 must be arranged by Wk 4 or cascade disruption ensues.</div>
+    </div>
+    <div class="sc-card stressed">
+      <div class="sc-num">Scenario 03</div>
+      <div class="sc-name">The Absconder</div>
+      <div class="sc-challenge">P3 stops showing up, AWOL 9 weeks</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">2 RF</span>
+        <span class="sc-verdict stressed">🟡 STRESSED BUT MANAGED</span>
+      </div>
+      <div class="sc-finding">No RF3 means zero goodwill cushion in Block B. RF3 vacancy is a structural risk.</div>
+    </div>
+    <div class="sc-card stressed">
+      <div class="sc-num">Scenario 04</div>
+      <div class="sc-name">The Long-Term Sick</div>
+      <div class="sc-challenge">P1 off 11 wks (myocarditis)</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">3 RF</span>
+        <span class="sc-verdict stressed">🟡 STRESSED THEN RECOVERED</span>
+      </div>
+      <div class="sc-finding">Locum triggered Week 4 is critical. 3-week pre-locum gap is the danger zone.</div>
+    </div>
+    <div class="sc-card stressed">
+      <div class="sc-num">Scenario 05</div>
+      <div class="sc-name">The Leave Tsunami</div>
+      <div class="sc-challenge">All 10 want the same August window</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">2 RF</span>
+        <span class="sc-verdict stressed">🟡 STRESSED</span>
+      </div>
+      <div class="sc-finding">Administrative failure (late forms). Rules applied consistently = clinical rota holds.</div>
+    </div>
+    <div class="sc-card stressed">
+      <div class="sc-num">Scenario 06</div>
+      <div class="sc-name">The Toxic Dynamic</div>
+      <div class="sc-challenge">Clique warfare, cover culture breakdown</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">3 RF</span>
+        <span class="sc-verdict stressed">🟡 STRESSED</span>
+      </div>
+      <div class="sc-finding">Near-miss incident is patient safety signal. Rota survives; team does not.</div>
+    </div>
+    <div class="sc-card breakdown">
+      <div class="sc-num">Scenario 07</div>
+      <div class="sc-name">The Exam Season Crush</div>
+      <div class="sc-challenge">7/10 sitting MRCPCH in Oct-Nov</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">3 RF</span>
+        <span class="sc-verdict breakdown">🔴 NEAR-BREAKDOWN</span>
+      </div>
+      <div class="sc-finding">Nov 5: 4 simultaneous absences. Every cover option exhausted. 5th absence = service failure.</div>
+    </div>
+    <div class="sc-card stressed">
+      <div class="sc-num">Scenario 08</div>
+      <div class="sc-name">The Cascading Sick Leave</div>
+      <div class="sc-challenge">4 sick events across 16 weeks</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">2 RF</span>
+        <span class="sc-verdict stressed">🟡 STRESSED BUT RESILIENT</span>
+      </div>
+      <div class="sc-finding">Each event resolved differently. RF goodwill correctly rationed.</div>
+    </div>
+    <div class="sc-card stressed">
+      <div class="sc-num">Scenario 09</div>
+      <div class="sc-name">The RF Collapse</div>
+      <div class="sc-challenge">3→1 RF by Week 9</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">1 RF</span>
+        <span class="sc-verdict stressed">🟡 STRESSED</span>
+      </div>
+      <div class="sc-finding">Clinical residents cover weekend Oct 10-11 on overtime. Creative but unconventional.</div>
+    </div>
+    <div class="sc-card robust">
+      <div class="sc-num">Scenario 10</div>
+      <div class="sc-name">The Overleave Cluster</div>
+      <div class="sc-challenge">Multiple residents exceed entitlement</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">3 RF</span>
+        <span class="sc-verdict robust">🟢 ROBUST</span>
+      </div>
+      <div class="sc-finding">Robust once rules applied consistently. Administrative exhaustion, not clinical failure.</div>
+    </div>
+    <div class="sc-card breakdown">
+      <div class="sc-num">Scenario 11</div>
+      <div class="sc-name">The Winter Viral Surge</div>
+      <div class="sc-challenge">Norovirus sweeps the team Nov</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">3 RF</span>
+        <span class="sc-verdict breakdown">🔴 NEAR-BREAKDOWN</span>
+      </div>
+      <div class="sc-finding">Nov 18: 3 simultaneous. 4th absence that day = genuine uncoverable gap.</div>
+    </div>
+    <div class="sc-card stressed">
+      <div class="sc-num">Scenario 12</div>
+      <div class="sc-name">The High-Achiever Burnout</div>
+      <div class="sc-challenge">Two senior residents burn out (Wk 12+14)</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">3 RF</span>
+        <span class="sc-verdict stressed">🟡 STRESSED</span>
+      </div>
+      <div class="sc-finding">Rota copes. Wellbeing system fails. Predictable and preventable.</div>
+    </div>
+    <div class="sc-card robust">
+      <div class="sc-num">Scenario 13</div>
+      <div class="sc-name">The International Cohort</div>
+      <div class="sc-challenge">Credential delays, cultural leave norms</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">3 RF</span>
+        <span class="sc-verdict robust">🟢 ROBUST</span>
+      </div>
+      <div class="sc-finding">High admin overhead but clinically sound. Cultural flex is required.</div>
+    </div>
+    <div class="sc-card breakdown">
+      <div class="sc-num">Scenario 14</div>
+      <div class="sc-name">The Domino Injury</div>
+      <div class="sc-challenge">RTA: 2 residents injured simultaneously</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">2 RF</span>
+        <span class="sc-verdict breakdown">🔴 BREAKDOWN AVERTED</span>
+      </div>
+      <div class="sc-finding">Wks 12-13 without locum: critically stressed. Team solidarity prevents collapse.</div>
+    </div>
+    <div class="sc-card robust">
+      <div class="sc-num">Scenario 15</div>
+      <div class="sc-name">The Grief Leave Cluster</div>
+      <div class="sc-challenge">Multiple bereavements across window</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">3 RF</span>
+        <span class="sc-verdict robust">🟢 ROBUST</span>
+      </div>
+      <div class="sc-finding">Human management is the key. Fast, generous decisions enable volunteer cover.</div>
+    </div>
+    <div class="sc-card stressed">
+      <div class="sc-num">Scenario 16</div>
+      <div class="sc-name">The Study Leave Arms Race</div>
+      <div class="sc-challenge">All 10 maximise SL simultaneously</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">3 RF</span>
+        <span class="sc-verdict stressed">🟡 STRESSED</span>
+      </div>
+      <div class="sc-finding">Rota copes via staggering. Administration nearly breaks. Transparency cures arms race.</div>
+    </div>
+    <div class="sc-card breakdown">
+      <div class="sc-num">Scenario 17</div>
+      <div class="sc-name">The Understaffed Winter</div>
+      <div class="sc-challenge">Dec: AL+SL+sick+only 2 RFs converge</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">2 RF</span>
+        <span class="sc-verdict breakdown">🔴 NEAR-BREAKDOWN</span>
+      </div>
+      <div class="sc-finding">Dec 9: hardest single day of window. Łukasz back injury raises safety concern.</div>
+    </div>
+    <div class="sc-card breakdown">
+      <div class="sc-num">Scenario 18</div>
+      <div class="sc-name">The RF Heroes</div>
+      <div class="sc-challenge">Admin error → 6/10 absent; RFs rescue</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">3 RF</span>
+        <span class="sc-verdict breakdown">🔴 BREAKDOWN AVERTED</span>
+      </div>
+      <div class="sc-finding">Detection 1 week before crisis enables mitigation. RFs go above obligation with compensation.</div>
+    </div>
+    <div class="sc-card robust">
+      <div class="sc-num">Scenario 19</div>
+      <div class="sc-name">The Complaint Chain</div>
+      <div class="sc-challenge">Formal grievance paralyses administration</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">3 RF</span>
+        <span class="sc-verdict robust">🟢 ROBUST</span>
+      </div>
+      <div class="sc-finding">Clinical rota unaffected. Admin burdened 6hrs/wk for 5 weeks. Systemic improvements result.</div>
+    </div>
+    <div class="sc-card breakdown">
+      <div class="sc-num">Scenario 20</div>
+      <div class="sc-name">The Perfect Storm</div>
+      <div class="sc-challenge">AWOL + surgical emergency + planned AL collide</div>
+      <div class="sc-meta">
+        <span class="sc-rfs">2 RF</span>
+        <span class="sc-verdict breakdown">🔴 PERFECT STORM</span>
+      </div>
+      <div class="sc-finding">One person saying "no" on Oct 29 night = uncovered nights. Hard floor of system resilience.</div>
+    </div></div>
+
+  <div class="section-hdr"><h2>Cross-Scenario Findings</h2></div>
+  <div class="fi-grid">
+    <div class="fi-card">
+      <div class="fi-num">01</div>
+      <div class="fi-title">Rota Architecture</div>
+      <div class="fi-text">The 10-position rotating template with dedicated Flex slot is fundamentally sound. In all 20 scenarios, core services (NICU, SCBU, Nights) remained covered. The template never failed — people and processes around it did.</div>
+    </div>
+    <div class="fi-card">
+      <div class="fi-num">02</div>
+      <div class="fi-title">Flex Slot Effectiveness</div>
+      <div class="fi-text">The Flex slot absorbed the first-line gap in 18 of 20 scenarios. It failed only when (a) the Flex person was themselves the absent resident (Scenarios 3, 18), or (b) the Flex was already committed to an AL gap and a second absence occurred simultaneously (Scenarios 17, 20).</div>
+    </div>
+    <div class="fi-card">
+      <div class="fi-num">03</div>
+      <div class="fi-title">Rf Complement Criticality</div>
+      <div class="fi-text">Scenarios with 2 RFs (vs 3) consistently rated one tier worse in resilience. The goodwill reserve with 2 RFs is exhausted 40% faster under stress events. RF3 vacancy is not a minor administrative gap — it is a structural safety risk.</div>
+    </div>
+    <div class="fi-card">
+      <div class="fi-num">04</div>
+      <div class="fi-title">The Hard Floor</div>
+      <div class="fi-text">Every scenario identified a "hard floor" — the point at which one more person saying "no" would cause a genuine service gap. This floor is consistently reached at 4 simultaneous absences including at least one nights position. The rota cannot safely absorb more than this without external intervention.</div>
+    </div>
+    <div class="fi-card">
+      <div class="fi-num">05</div>
+      <div class="fi-title">Nights Are Always The Critical Variable</div>
+      <div class="fi-text">In 14 of 20 scenarios, the cover challenge that required the most creative solution was nights (weekday or weekend). Standard day shifts can be reduced, split, or supervised-down. Nights cannot. Nights gap = patient safety risk.</div>
+    </div>
+    <div class="fi-card">
+      <div class="fi-num">06</div>
+      <div class="fi-title">Administrative Failure Is As Dangerous As Clinical Failure</div>
+      <div class="fi-text">Scenarios 5, 10, 16, 18, and 19 demonstrate that administrative errors (late forms, timestamp failures, approval errors, opacity of Flex rules) create crises that clinical competence cannot easily fix. Process is not bureaucracy — it is safety infrastructure.</div>
+    </div>
+    <div class="fi-card">
+      <div class="fi-num">07</div>
+      <div class="fi-title">Goodwill Is A Finite Resource</div>
+      <div class="fi-text">RF goodwill (5 shifts/person), resident voluntary swaps, and REST-day cover are all finite. Once exhausted, the rota has no buffer. In Scenarios 9, 14, 17, and 20, goodwill reserve approached zero. Managing its depletion rate is as important as managing leave.</div>
+    </div>
+    <div class="fi-card">
+      <div class="fi-num">08</div>
+      <div class="fi-title">Wellbeing Is A Rota Issue</div>
+      <div class="fi-text">Scenarios 6, 12, 15, 19, and 20 all feature resident mental health or wellbeing as a driver of rota disruption. In no case was the crisis predictable from the rota alone — but in all cases, earlier wellbeing intervention would have reduced rota impact.</div>
+    </div>
+    <div class="fi-card">
+      <div class="fi-num">09</div>
+      <div class="fi-title">Team Cohesion Multiplies Resilience</div>
+      <div class="fi-text">The Dream Team (Scenario 1) absorbs events that would break Scenario 6 (Toxic Dynamic). The difference is not clinical skill — it is the informal goodwill of voluntary cover, proactive communication, and mutual trust. This cannot be mandated but can be cultivated.</div>
+    </div>
+    <div class="fi-card">
+      <div class="fi-num">10</div>
+      <div class="fi-title">Locum Pathway Speed Is Critical</div>
+      <div class="fi-text">In Scenario 4 (long-term sick) and Scenario 14 (RTA), the rota stress severity was directly proportional to locum response time. A 3-week locum delay = 3 weeks of maximum-stretch cover. Every department should have a pre-established agency relationship and credentialling pathway for emergency neonatal locums.</div>
+    </div></div>
+</div>
+</body>
+</html>

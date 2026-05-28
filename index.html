@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neonatal Rota Resilience Study</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+:root{--ink:#0f1117;--paper:#f5f0e8;--cream:#ede7d9;--rule:#b5a48a;--red:#b32a1e;--amber:#c47a00;--green:#1a5e32;--blue:#14406e;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;opacity:.4;}
+.hero{position:relative;z-index:1;min-height:100vh;display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;}
+.hbg{position:absolute;inset:0;background:linear-gradient(160deg,#0f1117 0%,#1a2236 40%,#0d1a0f 100%);z-index:0;}
+.hbg::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(181,164,138,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(181,164,138,.08) 1px,transparent 1px);background-size:80px 80px;}
+.hbg::after{content:'';position:absolute;top:-20%;right:-10%;width:60vw;height:60vw;border-radius:50%;background:radial-gradient(circle,rgba(20,64,110,.25) 0%,transparent 70%);pointer-events:none;}
+.hhead{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:2rem 4rem;border-bottom:1px solid rgba(181,164,138,.2);}
+.wordmark{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--rule);}
+.hnav{display:flex;gap:2rem;}
+.hnav a{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--rule);text-decoration:none;transition:color .2s;}
+.hnav a:hover{color:#f5f0e8;}
+.hbody{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;padding:4rem 4rem 2rem;max-width:1100px;}
+.kicker{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.25em;text-transform:uppercase;color:var(--rule);margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;}
+.kicker::before{content:'';display:block;width:2rem;height:1px;background:var(--rule);}
+.htitle{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,7vw,6.5rem);font-weight:300;line-height:1;color:#f5f0e8;letter-spacing:-.01em;margin-bottom:1rem;}
+.htitle em{font-style:italic;color:rgba(245,240,232,.6);}
+.hsub{font-family:'Cormorant Garamond',serif;font-size:clamp(1.1rem,2vw,1.5rem);font-weight:300;font-style:italic;color:rgba(245,240,232,.5);max-width:680px;line-height:1.5;margin-bottom:3rem;}
+.hstats{display:flex;gap:3rem;flex-wrap:wrap;}
+.hstat{display:flex;flex-direction:column;gap:.3rem;}
+.hsn{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:#f5f0e8;line-height:1;}
+.hsr{width:2rem;height:2px;background:var(--red);margin:.3rem 0;}
+.hsl{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--rule);}
+.hfoot{position:relative;z-index:2;padding:1.5rem 4rem;border-top:1px solid rgba(181,164,138,.15);display:flex;justify-content:space-between;align-items:center;}
+.sh{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(181,164,138,.5);display:flex;align-items:center;gap:.8rem;}
+.sa{width:1px;height:2rem;background:linear-gradient(to bottom,rgba(181,164,138,.5),transparent);}
+.ct{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(181,164,138,.4);}
+.section{position:relative;z-index:1;padding:6rem 4rem;max-width:1200px;margin:0 auto;}
+.srule{display:flex;align-items:center;gap:1.5rem;margin-bottom:3rem;}
+.snum{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.2em;color:var(--rule);}
+.srule::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--rule),transparent);}
+.stitle{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.5rem);font-weight:300;line-height:1.1;margin-bottom:1rem;letter-spacing:-.01em;}
+.slead{font-size:1rem;line-height:1.7;color:#444;max-width:680px;margin-bottom:3rem;font-weight:300;}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem;}
+.dc{background:#fff;border:1px solid #e5ddd0;border-radius:4px;overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;position:relative;}
+.dc:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(15,17,23,.12);}
+.dc:hover .darr{transform:translateX(4px);}
+.da{height:3px;}
+.da-b{background:var(--blue);}.da-g{background:var(--green);}.da-r{background:var(--red);}.da-a{background:var(--amber);}
+.dbody{padding:1.5rem 1.5rem 1rem;flex:1;}
+.dtype{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--rule);margin-bottom:.7rem;}
+.dtitle{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;line-height:1.2;margin-bottom:.5rem;color:var(--ink);}
+.ddesc{font-size:.83rem;line-height:1.6;color:#555;font-weight:300;}
+.dfoot{padding:.9rem 1.5rem;border-top:1px solid #f0ede8;display:flex;justify-content:space-between;align-items:center;}
+.dmeta{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:var(--rule);}
+.darr{font-size:.8rem;color:var(--rule);transition:transform .2s;}
+.dc.feat{grid-column:1/-1;display:grid;grid-template-columns:3fr 1fr;}
+@media(max-width:700px){.dc.feat{grid-template-columns:1fr;}}
+.dc.feat .da{grid-column:1/-1;}
+.dc.feat .dbody{padding:2rem 2rem 1.5rem;}
+.dc.feat .dtitle{font-size:2rem;}
+.dc.feat .ddesc{max-width:560px;font-size:.9rem;}
+.fside{background:var(--ink);display:flex;flex-direction:column;justify-content:center;align-items:center;padding:2rem;gap:1.5rem;}
+.fstat{text-align:center;}
+.fsn{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;color:#f5f0e8;line-height:1;}
+.fsl{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--rule);margin-top:.3rem;}
+.msec{background:var(--ink);color:var(--paper);padding:6rem 4rem;position:relative;z-index:1;}
+.mi{max-width:1200px;margin:0 auto;}
+.msec .srule::after{background:linear-gradient(to right,rgba(181,164,138,.4),transparent);}
+.msec .snum{color:rgba(181,164,138,.5);}
+.msec .stitle{color:var(--paper);}
+.msec .slead{color:rgba(245,240,232,.5);}
+.mgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;}
+@media(max-width:900px){.mgrid{grid-template-columns:repeat(4,1fr);}}
+@media(max-width:600px){.mgrid{grid-template-columns:repeat(2,1fr);}}
+.mc{aspect-ratio:1;border:1px solid rgba(181,164,138,.1);border-radius:3px;padding:.8rem;display:flex;flex-direction:column;justify-content:space-between;transition:border-color .2s;}
+.mc:hover{border-color:rgba(181,164,138,.4);}
+.mc.robust{background:rgba(26,94,50,.15);}.mc.stressed{background:rgba(196,122,0,.12);}.mc.breakdown{background:rgba(179,42,30,.15);}
+.mcn{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.15em;color:rgba(181,164,138,.5);}
+.mct{font-family:'Cormorant Garamond',serif;font-size:.85rem;font-weight:400;color:rgba(245,240,232,.7);line-height:1.2;}
+.mcv{font-size:.65rem;font-family:'DM Mono',monospace;letter-spacing:.05em;}
+.mcv.r{color:#4caf82;}.mcv.s{color:#f0b742;}.mcv.b{color:#e06060;}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:4px;overflow:hidden;}
+@media(max-width:700px){.fgrid{grid-template-columns:1fr;}}
+.fi{background:var(--paper);padding:2rem;}
+.fin{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.2em;color:var(--rule);margin-bottom:.8rem;}
+.fit{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;margin-bottom:.6rem;color:var(--ink);}
+.fip{font-size:.82rem;line-height:1.65;color:#555;font-weight:300;}
+footer{position:relative;z-index:1;background:var(--ink);border-top:1px solid rgba(181,164,138,.15);padding:3rem 4rem;}
+.fti{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.fb{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:300;color:rgba(245,240,232,.6);}
+.fm{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(181,164,138,.4);text-align:right;line-height:1.8;}
+.fr{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--rule),transparent);position:relative;z-index:1;}
+@keyframes fu{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.kicker{animation:fu .6s ease both;animation-delay:.1s;}
+.htitle{animation:fu .6s ease both;animation-delay:.2s;}
+.hsub{animation:fu .6s ease both;animation-delay:.35s;}
+.hstats{animation:fu .6s ease both;animation-delay:.5s;}
+@media(max-width:800px){.hhead{padding:1.2rem 1.5rem;}.hbody{padding:2.5rem 1.5rem 1.5rem;}.section{padding:3rem 1.5rem;}.msec{padding:3rem 1.5rem;}.hstats{gap:1.5rem;}.hsn{font-size:2rem;}.hnav{gap:1rem;}.hfoot{padding:1rem 1.5rem;} footer{padding:2rem 1.5rem;}}
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="hbg"></div>
+  <header class="hhead">
+    <div class="wordmark">Neonatal Rota · Resilience Study</div>
+    <nav class="hnav">
+      <a href="#documents">Documents</a>
+      <a href="#scenarios">Scenarios</a>
+      <a href="#findings">Findings</a>
+      <a href="rota.html">Rota</a><a href="scenarios.html">Scenarios</a><a href="characters.html">Characters</a>
+    </nav>
+  </header>
+  <div class="hbody">
+    <div class="kicker">Jul 13 – Dec 20, 2026 · 23-week window</div>
+    <h1 class="htitle">How well does<br>a neonatal rota<br><em>actually hold?</em></h1>
+    <p class="hsub">A complete stress-test of a 10-position rotating neonatal resident rota — with real leave requests, study leave, sick leave, pregnancies, bereavements, absconding doctors, and 20 parallel adversarial scenarios.</p>
+    <div class="hstats">
+      <div class="hstat"><span class="hsn">20</span><div class="hsr"></div><span class="hsl">Scenarios run</span></div>
+      <div class="hstat"><span class="hsn">109</span><div class="hsr"></div><span class="hsl">Named characters</span></div>
+      <div class="hstat"><span class="hsn">23</span><div class="hsr"></div><span class="hsl">Weeks modelled</span></div>
+      <div class="hstat"><span class="hsn">0</span><div class="hsr"></div><span class="hsl">Service failures</span></div>
+    </div>
+  </div>
+  <div class="hfoot">
+    <div class="sh"><div class="sa"></div>Scroll to explore</div>
+    <div class="ct">Ireland · Neonatology · Rota Management</div>
+  </div>
+</section>
+<div class="fr"></div>
+<section class="section" id="documents">
+  <div class="srule"><span class="snum">01</span></div>
+  <h2 class="stitle">Documents</h2>
+  <p class="slead">The complete archive of rota versions, resilience analysis, scenario matrices, and the character directory.</p>
+  <div class="dgrid">
+    <a class="dc feat" href="characters.html">
+      <div class="da da-b" style="grid-column:1/-1;"></div>
+      <div class="dbody">
+        <div class="dtype">Interactive · HTML</div>
+        <div class="dtitle">The Character Directory</div>
+        <div class="ddesc">Every doctor, fellow, and locum across all 20 scenarios — searchable and filterable by role, verdict, and archetype. Click any card to reveal their leave reasons, family background, and the fuller story. 109 individuals.</div>
+        <div class="dfoot" style="border:none;padding:1rem 0 0;"><span class="dmeta">109 people · 20 scenarios · fully searchable</span><span class="darr">→</span></div>
+      </div>
+      <div class="fside">
+        <div class="fstat"><div class="fsn">109</div><div class="fsl">Characters</div></div>
+        <div class="fstat"><div class="fsn">20</div><div class="fsl">Scenarios</div></div>
+        <div class="fstat"><div class="fsn">∞</div><div class="fsl">Stories</div></div>
+      </div>
+    </a>
+    <a class="dc" href="rota.html">
+      <div class="da da-g"></div>
+      <div class="dbody"><div class="dtype">Interactive · HTML</div><div class="dtitle">Rota Jul–Dec 2026</div><div class="ddesc">The full 23-week named rota with all approved annual leave and study leave — colour-coded by shift type. Includes the study leave register and individual leave totals.</div></div>
+      <div class="dfoot"><span class="dmeta">23 weeks · AL + SL · 3 tabs</span><span class="darr">→</span></div>
+    </a>
+    <a class="dc" href="scenarios.html">
+      <div class="da da-r"></div>
+      <div class="dbody"><div class="dtype">Interactive · HTML</div><div class="dtitle">Resilience Scenario Matrix</div><div class="ddesc">All 20 adversarial scenarios with verdicts and key findings — plus the ten cross-scenario lessons distilled from the full stress test.</div></div>
+      <div class="dfoot"><span class="dmeta">20 scenarios · findings · synthesis</span><span class="darr">→</span></div>
+    </a>
+  </div>
+</section>
+<div class="fr"></div>
+<section class="msec" id="scenarios">
+  <div class="mi">
+    <div class="srule"><span class="snum">02</span></div>
+    <h2 class="stitle">The 20 Scenarios</h2>
+    <p class="slead">Each scenario was run as a parallel stress-test with a different team, leave pattern, and adversarial event. <span style="color:#4caf82">Robust</span> · <span style="color:#f0b742">Stressed</span> · <span style="color:#e06060">Near-Breakdown</span></p>
+    <div class="mgrid">
+      <div class="mc robust"><div class="mcn">01</div><div class="mct">The Dream Team</div><div class="mcv r">● Robust</div></div>
+      <div class="mc stressed"><div class="mcn">02</div><div class="mct">The Pregnancy Problem</div><div class="mcv s">● Stressed</div></div>
+      <div class="mc stressed"><div class="mcn">03</div><div class="mct">The Absconder</div><div class="mcv s">● Stressed</div></div>
+      <div class="mc stressed"><div class="mcn">04</div><div class="mct">The Long-Term Sick</div><div class="mcv s">● Stressed</div></div>
+      <div class="mc stressed"><div class="mcn">05</div><div class="mct">The Leave Tsunami</div><div class="mcv s">● Stressed</div></div>
+      <div class="mc stressed"><div class="mcn">06</div><div class="mct">The Toxic Dynamic</div><div class="mcv s">● Stressed</div></div>
+      <div class="mc breakdown"><div class="mcn">07</div><div class="mct">The Exam Season Crush</div><div class="mcv b">● Near-Breakdown</div></div>
+      <div class="mc stressed"><div class="mcn">08</div><div class="mct">Cascading Sick Leave</div><div class="mcv s">● Stressed</div></div>
+      <div class="mc stressed"><div class="mcn">09</div><div class="mct">The RF Collapse</div><div class="mcv s">● Stressed</div></div>
+      <div class="mc robust"><div class="mcn">10</div><div class="mct">The Overleave Cluster</div><div class="mcv r">● Robust</div></div>
+      <div class="mc breakdown"><div class="mcn">11</div><div class="mct">The Winter Viral Surge</div><div class="mcv b">● Near-Breakdown</div></div>
+      <div class="mc stressed"><div class="mcn">12</div><div class="mct">High-Achiever Burnout</div><div class="mcv s">● Stressed</div></div>
+      <div class="mc robust"><div class="mcn">13</div><div class="mct">The International Cohort</div><div class="mcv r">● Robust</div></div>
+      <div class="mc breakdown"><div class="mcn">14</div><div class="mct">The Domino Injury</div><div class="mcv b">● Near-Breakdown</div></div>
+      <div class="mc robust"><div class="mcn">15</div><div class="mct">The Grief Leave Cluster</div><div class="mcv r">● Robust</div></div>
+      <div class="mc stressed"><div class="mcn">16</div><div class="mct">Study Leave Arms Race</div><div class="mcv s">● Stressed</div></div>
+      <div class="mc breakdown"><div class="mcn">17</div><div class="mct">The Understaffed Winter</div><div class="mcv b">● Near-Breakdown</div></div>
+      <div class="mc breakdown"><div class="mcn">18</div><div class="mct">The RF Heroes</div><div class="mcv b">● Breakdown Averted</div></div>
+      <div class="mc robust"><div class="mcn">19</div><div class="mct">The Complaint Chain</div><div class="mcv r">● Robust</div></div>
+      <div class="mc breakdown"><div class="mcn">20</div><div class="mct">The Perfect Storm</div><div class="mcv b">● Perfect Storm</div></div>
+    </div>
+  </div>
+</section>
+<div class="fr"></div>
+<section class="section" id="findings">
+  <div class="srule"><span class="snum">03</span></div>
+  <h2 class="stitle">Ten Things the<br><em>Stress Test Found</em></h2>
+  <p class="slead">Distilled from 20 scenarios, 109 characters, and 23 weeks of modelled operational pressure.</p>
+  <div class="fgrid">
+    <div class="fi"><div class="fin">01 — Architecture</div><div class="fit">The template is sound. Everything around it isn't always.</div><div class="fip">The 10-position rotating template with Flex slot held in all 20 scenarios. What failed were the processes, people, and buffers surrounding it.</div></div>
+    <div class="fi"><div class="fin">02 — Flex Slot</div><div class="fit">The Flex slot is the rota's immune system.</div><div class="fip">It absorbed the first-line gap in 18 of 20 scenarios. It failed only when the Flex person was themselves absent, or already committed when a second absence hit.</div></div>
+    <div class="fi"><div class="fin">03 — Research Fellows</div><div class="fit">Two RFs vs three is a tier-1 resilience difference.</div><div class="fip">Every 2-RF scenario rated one tier worse than its 3-RF equivalent. The RF3 vacancy is not an administrative inconvenience — it is a structural patient safety risk.</div></div>
+    <div class="fi"><div class="fin">04 — Nights</div><div class="fit">Nights are always the hard problem.</div><div class="fip">In 14 of 20 scenarios, the nights shift was the hardest to cover. Day shifts can be reduced or supervised down. Nights cannot. Every nights gap is a patient safety event.</div></div>
+    <div class="fi"><div class="fin">05 — Hard Floor</div><div class="fit">The hard floor is 4 simultaneous absences with nights exposed.</div><div class="fip">This limit appeared consistently. Beyond it, the rota requires external intervention. There is no internal solution.</div></div>
+    <div class="fi"><div class="fin">06 — Goodwill</div><div class="fit">Goodwill is finite and must be actively managed.</div><div class="fip">RF goodwill (5 shifts each), voluntary swaps, and REST-day cover are consumed and depleted. Managing depletion rate matters as much as managing leave.</div></div>
+    <div class="fi"><div class="fin">07 — Administration</div><div class="fit">Administrative failure is as dangerous as clinical failure.</div><div class="fip">Late forms, timestamping failures, approval errors, and opaque rules create crises that clinical competence cannot fix. Process is safety infrastructure.</div></div>
+    <div class="fi"><div class="fin">08 — Locums</div><div class="fit">Locum pathway speed is everything in long-term sick.</div><div class="fip">Rota stress severity was directly proportional to locum response time. Every department should have a pre-established agency relationship before the crisis starts.</div></div>
+    <div class="fi"><div class="fin">09 — Team Cohesion</div><div class="fit">Team cohesion is an invisible but critical variable.</div><div class="fip">The Dream Team absorbed events that broke the Toxic Dynamic. The difference was not clinical skill — it was trust and voluntary cover culture. It cannot be mandated but it can be cultivated.</div></div>
+    <div class="fi"><div class="fin">10 — Wellbeing</div><div class="fit">Wellbeing events are rota events.</div><div class="fip">Burnout, AWOL, and mental health crises drove rota disruption in five scenarios. The absence of structured wellbeing monitoring is a gap in the rota system, not outside it.</div></div>
+  </div>
+</section>
+<div class="fr"></div>
+<footer>
+  <div class="fti">
+    <div class="fb">Neonatal Rota Resilience Study</div>
+    <div class="fm">13 Jul – 20 Dec 2026 · 23 weeks modelled<br>20 scenarios · 109 characters · 0 service failures<br>Generated with Claude · Published via GitHub Pages</div>
+  </div>
+</footer>
+</body>
+</html>
